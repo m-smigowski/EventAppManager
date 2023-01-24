@@ -51,7 +51,8 @@
                         <input name="event_date" type="date" class="form-control" value="<?= $event->getEventDate()?>">
                     </div>
 
-                    <input name="id" type="hidden" value="<?= $event->getID()?>"></input>
+                    <input name="id" type="hidden" value="<?= $event->getID()?>">
+
 
                     <button type="submit" class="btn btn-success" value="Zaktualizuj" name="EventUP" >Zaktualizuj</button>
                     <button type="submit" class="btn btn-danger" value="Usuń" name="EventDEL" >Usuń</button>

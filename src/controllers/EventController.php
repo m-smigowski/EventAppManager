@@ -2,7 +2,9 @@
 
 require_once 'AppController.php';
 require_once __DIR__ .'/../models/Event.php';
+require_once __DIR__ . '/../models/UserInEvent.php';
 require_once __DIR__.'/../repository/EventRepository.php';
+require_once __DIR__.'/../repository/UserRepository.php';
 
 class EventController extends AppController
 {
@@ -18,13 +20,13 @@ class EventController extends AppController
     {
         parent:: __construct();
         $this->eventRepository = new EventRepository();
+        $this->userRepository = new UserRepository();
     }
 
     public function events()
     {
-        if(!$this->isLoggedIn())
-        {
-            return $this->render('login',['messages' => ['ZALOGUJ SIĘ!']]);
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
         }
 
         $date = date('Y-m-d');
@@ -34,9 +36,8 @@ class EventController extends AppController
 
     public function pastEvents()
     {
-        if(!$this->isLoggedIn())
-        {
-            return $this->render('login',['messages' => ['ZALOGUJ SIĘ!']]);
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
         }
 
         $date = date('Y-m-d');
@@ -47,11 +48,10 @@ class EventController extends AppController
 
     public function eventEdit()
     {
-        if(!$this->isLoggedIn())
-        {
+        if (!$this->isLoggedIn()) {
 
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         $id = $_GET['id'];
@@ -61,19 +61,18 @@ class EventController extends AppController
 
     public function updateEvent()
     {
-        if(!$this->isLoggedIn())
-        {
+        if (!$this->isLoggedIn()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         if ($this->isPost()) {
-            if(isset($_POST['EventUP'])){
+            if (isset($_POST['EventUP'])) {
                 $event = new Event($_POST['id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],);
                 $this->eventRepository->updateEvent($event);
-                return $this->redirect('/events');
-            }
-            elseif(isset($_POST['EventDEL'])){
+
+                return $this->redirect('/eventViewDetails?id=' . $_POST['id']);
+            } elseif (isset($_POST['EventDEL'])) {
                 $id = $_POST['id'];
                 $this->eventRepository->removeEvent($id);
                 return $this->redirect('/events');
@@ -83,14 +82,12 @@ class EventController extends AppController
 
     public function addEvent()
     {
-        if(!$this->isLoggedIn())
-        {
+        if (!$this->isLoggedIn()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        if($this->isPost())
-        {
+        if ($this->isPost()) {
             $event = new Event($_POST['id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],);
 
             $this->eventRepository->addEvent($event);
@@ -100,6 +97,70 @@ class EventController extends AppController
         }
         $this->render('add-event');
     }
+
+    public function eventViewDetails()
+    {
+        if (!$this->isLoggedIn()) {
+
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        $event_id = $_GET['id'];
+        $event = $this->eventRepository->getEvent($event_id);
+
+        $event_users_ids = $this->eventRepository->getIdUsersInEvent($event_id);
+        if ($event_users_ids === null) {
+            $event_users[] = new UserInEvent(
+                $usersInEvent['name'] = null,
+                $usersInEvent['surname'] = null,
+                $usersInEvent['role_name']= null,
+            );
+        } else {
+            $arr = array_column($event_users_ids, 'id_users');
+            $arr_to_string = implode(',', $arr);
+            $event_users = $this->eventRepository->getUsersInEvent($arr_to_string,$event_id);
+        }
+
+        $this->render('event-view-details', ['event' => $event, 'usersInEvent' => $event_users]);
+    }
+
+    public function eventEditWorkers()
+    {
+        if (!$this->isLoggedIn()) {
+
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        $event_id = $_GET['id'];
+
+        if(isset($_POST['user_name_and_surname'])|| isset($_POST['user_role'])){
+            $name_surname = explode(' ',$_POST['user_name_and_surname']);
+            $user_role_name = $_POST['user_role'];
+            $return = $this->eventRepository->addUserEvent($name_surname,$event_id,$user_role_name);
+        }
+
+        $event_users_ids = $this->eventRepository->getIdUsersInEvent($event_id);
+        $all_users = $this->userRepository->getAllUsers();
+        $all_roles = $this->eventRepository->getAllRoles();
+
+        if ($event_users_ids === null) {
+            $event_users[] = new UserInEvent(
+                $usersInEvent['name'] = null,
+                $usersInEvent['surname'] = null,
+                $usersInEvent['role_name']= null,
+            );
+        } else {
+            $arr = array_column($event_users_ids, 'id_users'); // pobieranie wartości z pojedynczej kolumny
+            $arr_to_string = implode(',', $arr); // zamiana tablicy na typ string
+            $event_users = $this->eventRepository->getUsersInEvent($arr_to_string,$event_id);
+        }
+
+        $this->render('event-edit-workers', ['usersInEvent' => $event_users, 'users' => $all_users,
+            'roles'=> $all_roles,'event_id'=>$event_id]);
+    }
+
 
 
 }

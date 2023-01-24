@@ -130,4 +130,10 @@ button[type="submit"] .btn .btn-danger >{
 }
 
 
+/*EVENTS DETAILS*/
 
+.btn-edit>a{
+    text-decoration: none;
+    display: block;
+    color: white;
+}

@@ -58,7 +58,8 @@
                             <td><?= $event->getStatus()?></td>
                             <td><?= $event->getType()?></td>
                             <td><?= $event->getEventDate()?></td>
-                            <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventEdit?id=<?= $event->getId()?>">EDYTUJ</a></button></td>
+
+                            <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
                         </tr>
                     <?php endforeach;?>
                 </table>

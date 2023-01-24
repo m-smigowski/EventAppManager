@@ -2,6 +2,7 @@
 
 require_once 'Repository.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/UserInEvent.php';
 
 class UserRepository extends Repository
 {
@@ -30,6 +31,27 @@ class UserRepository extends Repository
             $user['active']
         );
     }
+
+    public function getAllUsers(): ?array
+    {
+        $result= [];
+        $stmt = $this->database->connect()->prepare('
+            SELECT ud.name,ud.surname FROM users u LEFT JOIN users_details ud 
+            ON u.id_user_details = ud.id 
+        ');
+        $stmt->execute();
+
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($users == false) {
+            return null;
+        }
+
+
+        return $users;
+
+    }
+
 
 
     public function addUser(User $user,string $activation_code)

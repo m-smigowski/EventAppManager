@@ -1,5 +1,5 @@
 public/uploads/
 .idea
 .vscode
-.config.php
+config.php
 _config_old.php

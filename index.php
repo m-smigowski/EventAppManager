@@ -22,7 +22,9 @@ Router::post('userUpdatePass', 'UsersPanelController');
 
 Router::get('events', 'EventController');
 Router::get('pastEvents', 'EventController');
+Router::get('eventViewDetails', 'EventController');
 Router::get('eventEdit', 'EventController');
+Router::get('eventEditWorkers', 'EventController');
 Router::get('updateEvent', 'EventController');
 
 Router::post('login', 'SecurityController');
