@@ -41,7 +41,7 @@ class UsersPanelController extends AppController
         if ($this->isPost()) {
             if (isset($_POST['UserUP'])) {;
                 $user = $this->userRepository->getUser($email);
-                $user = new User($_POST['email'],$user->getPassword(), $_POST['name'], $_POST['surname'], $_POST['phone'],$user->getActive());
+                $user = new User($_POST['email'],$user->getPassword(), $_POST['name'], $_POST['surname'], $_POST['phone'],$user->getStatus(),$user->getActive());
                 $_SESSION['user_name'] = $_POST['email'];
                 $this->userRepository->updateUser($user,$id);
                 return $this->redirect('/usersPanel');

@@ -28,7 +28,7 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Nadchodzące wydarzenia</h1>
+        <h1 class="h2"><?php echo $title;?></h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group ">
               <button type="button" class="btn btn-sm btn-outline-secondary"><a href="addEvent">Dodaj</a></button>
@@ -59,7 +59,7 @@
                             <td><?= $event->getType()?></td>
                             <td><?= $event->getEventDate()?></td>
 
-                            <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
+                            <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?event_id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
                         </tr>
                     <?php endforeach;?>
                 </table>
@@ -72,6 +72,7 @@
     <script src="public/js/style.js"></script>
 
     <script>
+
         $('.nav-item [href="/events"]').addClass("active");
 
         $(".nav-item [href='/pastEvents']").removeClass("hidden-link");

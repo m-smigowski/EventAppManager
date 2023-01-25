@@ -40,12 +40,17 @@ class AppController {
         }
     }
 
+    public function isAdmin(){
+        if (($_SESSION['user_status'])===3) {
+            return true;
+        }
+    }
 
     public function logOut() {
         // Destroy and unset active session
         session_destroy();
         unset($_SESSION['id']);
-        return $this->redirect('/login');
+        return $this->redirect('/login?msg=logout');
     }
 
     public function redirect($url) {

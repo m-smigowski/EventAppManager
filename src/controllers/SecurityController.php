@@ -25,7 +25,12 @@ class SecurityController extends AppController
                     'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
             }
 
-            if(isset($_SESSION['user_id']))
+            if($_GET['msg'] == 'logout'){
+                return $this->render('login', ['messages' => ['Zostałeś wylogowany'],
+                    'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+            }
+
+            if($this->isLoggedIn())
             {
                 $url = "http://$_SERVER[HTTP_HOST]";
                 header("Location: {$url}/main");
@@ -42,12 +47,15 @@ class SecurityController extends AppController
 
         $_SESSION['user_name'] = $email;
         $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_status'] = $user->getStatus();
+
 
         if (!$user) {
             return $this->render('login', ['messages' => ['Użytkownik nie został znaleziony w bazie danych, sprawdź login i hasło!'],
             'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
             ]);
         }
+
 
         if ($user->getEmail() !== $email) {
             return $this->render('login', ['messages' => ['Błędny adres email!'],
@@ -66,6 +74,7 @@ class SecurityController extends AppController
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
             ]);
         }
+
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/main");
@@ -93,9 +102,17 @@ class SecurityController extends AppController
 
     public function register(){
 
+        if(!$this->isAdmin()){
+
+            return $this->logOut();
+
+        }
+
         if (!$this->isPost()) {
             return $this->render('register');
         }
+
+
 
         $email = $_POST['email'];
         $user_exist = $this->userRepository->getUser($email);
@@ -111,11 +128,12 @@ class SecurityController extends AppController
         $surname = $_POST['surname'];
         $phone = $_POST['phone'];
         $active = 0;
+        $status = 1;
 
         $activation_code = md5($email);
         $this->send_activation_email($email,$activation_code);
 
-        $user = new User($email, md5($password), $name, $surname,$phone,$active);
+        $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
         $this->userRepository->addUser($user,$activation_code);
 
 

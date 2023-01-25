@@ -5,12 +5,12 @@ require_once __DIR__.'/../models/Event.php';
 
 class EventRepository extends Repository
 {
-    public function getEvent(int $id): ?Event
+    public function getEvent(int $event_id): ?Event
     {
         $stmt = $this->database->connect()->prepare('
             SELECT * FROM public.events WHERE id = :id
         ');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $event_id, PDO::PARAM_INT);
         $stmt->execute();
 
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -166,13 +166,12 @@ class EventRepository extends Repository
         $result = [];
         $stmt = $this->database->connect()->prepare('
         SELECT ud.name,ud.surname, uer.role_name
-        FROM((user_event
-            INNER JOIN events e on e.id = user_event.id_events
-            INNER JOIN user_event_roles uer on user_event.id_roles = uer.id
-            INNER JOIN users u on user_event.id_users = u.id
-            INNER JOIN users_details ud on u.id = ud.id
-            )) WHERE u.id IN ('.$arr_to_string.') and e.id=:event_id');
-
+        FROM user_event
+        INNER JOIN events e on e.id = user_event.id_events
+        INNER JOIN user_event_roles uer on user_event.id_roles = uer.id
+        INNER JOIN users u on user_event.id_users = u.id
+        INNER JOIN users_details ud on u.id_user_details = ud.id
+        WHERE u.id IN ('.$arr_to_string.') and e.id=:event_id');
 
         $stmt->bindParam(':event_id', $event_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -212,21 +211,24 @@ class EventRepository extends Repository
     public function addUserEvent(array $name_surname, int $event_id, string $user_role_name){
 
         $stmt = $this->database->connect()->prepare('
-        SELECT u.id FROM((users u
-            INNER JOIN users_details ud on u.id = ud.id
-            )) WHERE ud.name=:name AND ud.surname=:surname');
+        SELECT ud.id From users_details ud WHERE ud.name=:name AND ud.surname=:surname');
 
         $stmt->bindParam(':name', $name_surname[0], PDO::PARAM_STR);
         $stmt->bindParam(':surname', $name_surname[1], PDO::PARAM_STR);
         $stmt->execute();
+        $id_ud =  $stmt->fetchColumn();
 
-        $id_user =  $stmt->fetchColumn();
+        $stmt = $this->database->connect()->prepare('
+        SELECT u.id FROM users u WHERE id_user_details=:id_user');
+        $stmt->bindParam(':id_user', $id_ud ,PDO::PARAM_STR);
+
+        $stmt->execute();
+        $id_user = $stmt->fetchColumn();;
 
         $stmt = $this->database->connect()->prepare('
         SELECT uer.id FROM user_event_roles uer WHERE uer.role_name=:rolename ');
 
         $stmt->bindParam(':rolename', $user_role_name, PDO::PARAM_STR);
-
         $stmt->execute();
         $id_user_role_name = $stmt->fetchColumn();
 
@@ -244,6 +246,46 @@ class EventRepository extends Repository
 
 
     }
+
+
+    public function dropUserEvent(int $event_id,string $name,string $surname, string $role_name){
+
+        $stmt = $this->database->connect()->prepare('
+        SELECT ud.id From users_details ud WHERE ud.name=:name AND ud.surname=:surname');
+
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':surname', $surname);
+        $stmt->execute();
+        $id_ud =  $stmt->fetchColumn();
+
+        $stmt = $this->database->connect()->prepare('
+        SELECT u.id FROM users u WHERE id_user_details=:id_user');
+        $stmt->bindParam(':id_user', $id_ud ,PDO::PARAM_STR);
+        $stmt->execute();
+        $id_user = $stmt->fetchColumn();
+
+
+
+        $stmt = $this->database->connect()->prepare('
+        SELECT uer.id FROM user_event_roles uer WHERE uer.role_name=:rolename ');
+
+        $stmt->bindParam(':rolename', $role_name, PDO::PARAM_STR);
+        $stmt->execute();
+        $id_user_role_name = $stmt->fetchColumn();
+
+
+        $stmt = $this->database->connect()->prepare('
+        DELETE FROM user_event WHERE id_users=? AND id_events=? AND id_roles=?
+        ');
+
+        $stmt->execute([
+            $id_user,
+            $event_id,
+            $id_user_role_name
+        ]);
+
+    }
+
 
 
 

@@ -25,6 +25,7 @@ Router::get('pastEvents', 'EventController');
 Router::get('eventViewDetails', 'EventController');
 Router::get('eventEdit', 'EventController');
 Router::get('eventEditWorkers', 'EventController');
+Router::get('dropWorkerFromEvent', 'EventController');
 Router::get('updateEvent', 'EventController');
 
 Router::post('login', 'SecurityController');

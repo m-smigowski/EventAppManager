@@ -47,13 +47,14 @@
                                     <td><?= $userInEvent->getName()?></td>
                                     <td><?= $userInEvent->getSurname()?></td>
                                     <td><?= $userInEvent->getRoleName()?></td>
-                                    <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails>">Usuń</a></button></td>
+                                    <td><button type="button" class="btn-edit btn btn-primary btn-sm">
+                                            <a href="eventEditWorkers?event_id=<?php echo $event_id?>&name=<?= $userInEvent->getName()?>&surname=<?=$userInEvent->getSurname()?>&role_name=<?=$userInEvent->getRoleName()?>">Usuń</a></button></td>
                                     <?php endforeach;?>
                                 </tr>
                         </table>
                     </div>
 
-                        <form action="eventEditWorkers?id=<?php echo $event_id?>" method="POST" ENCTYPE="multipart/form-data">
+                        <form action="eventEditWorkers?event_id=<?php echo $event_id?>" method="POST" ENCTYPE="multipart/form-data">
                             <div class="row">
                                 <div class="col">
                                     <select name="user_name_and_surname" class="form-control">

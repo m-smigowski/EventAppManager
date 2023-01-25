@@ -39,6 +39,15 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                             Panel użytkownika
                         </a>
                     </li>
-                </ul>
-            </div>
-        </nav>';
+                ';
+                if($_SESSION['user_status'] === 3){
+                    echo '<li class="nav-item">
+                        <a class="nav-link" href="/adminPanel">
+                            <span data-feather="users" class="align-text-bottom"></span>
+                            Panel Administratora
+                        </a>
+                    </li> </div></nav></ul>';
+
+                }else{
+                    echo '</li> </div></nav></ul>';
+                }
