@@ -45,7 +45,6 @@
                     ?>
                 </div>
 
-
                 <div class="col participants">
                         <h3>Pracownicy: </h3>
                     <table class="table table-striped table-sm">
@@ -53,7 +52,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Imie</th>
                             <th scope="col">Nazwisko</th>
-                            <th scope="col">Rola</th>
+                            <th scope="col">Stanowisko</th>
                         </tr>
                         <?php
                         foreach ($usersInEvent as $userInEvent): ?>
@@ -81,7 +80,7 @@
                         </tr>
                     </table>
                     <?php
-                    if($_SESSION['user_status']=== 3) {
+                    if($_SESSION['user_status']===3) {
                        echo ' <button type = "button" class="btn-edit btn btn-primary btn-sm" >
                        <a href = "eventEditWorkers?event_id='.$event->getId().'" > Edytuj</a ></button >';
                     }?>

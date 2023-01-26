@@ -35,7 +35,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Imie</th>
                                 <th scope="col">Nazwisko</th>
-                                <th scope="col">Rola</th>
+                                <th scope="col">Stanowisko pracy</th>
                                 <th scope="col">akcja</th>
                             </tr>
                             <?php

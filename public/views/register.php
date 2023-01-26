@@ -36,15 +36,7 @@
                                 <input name="email" type="text"  class="form-control" />
                                 <label class="form-label">Adres E-Mail</label>
                             </div>
-                            <!-- Password input -->
-                            <div class="form-outline mb-2">
-                                <input name="password" type="password"  class="form-control" />
-                                <label class="form-label" ">Hasło</label>
-                            </div>
-                            <div class="form-outline mb-2">
-                                <input name="confirmed_pass" type="password"  class="form-control" />
-                                <label class="form-label" >Powtórz hasło</label>
-                            </div>
+
                             <div class="form-outline mb-2">
                                 <input name="name" type="text"  class="form-control" />
                                 <label class="form-label" >Imię</label>
@@ -82,38 +74,3 @@
 </body>
 </html>
 
-
-<!---------
-
-<!DOCTYPE html>
-
-<head>
-    <link rel="stylesheet" type="text/css" href="public/css/style.css">
-    <title>REGISTER PAGE</title>
-    <script type="text/javascript" src="./public/js/script.js" defer></script>
-</head>
-
-<body>
-<div class="container">
-    <div class="register-container">
-        <form class="register" action="register" method="POST">
-            <input name="email" type="text" placeholder="email@email.com">
-            <input name="password" type="password" placeholder="password">
-            <input name="confirmed_pass" type="password" placeholder="confirm password">
-            <input name="name" type="text" placeholder="name">
-            <input name="surname" type="text" placeholder="surname">
-            <input name="phone" type="text" placeholder="phone">
-            <button type="submit">REGISTER</button>
-        </form>
-        <div class="messages">
-            <?php
-            if(isset($messages)){
-                foreach($messages as $message) {
-                    echo $message;
-                }
-            }
-            ?>
-        </div>
-    </div>
-</div>
-</body>

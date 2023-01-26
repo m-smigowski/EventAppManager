@@ -23,6 +23,38 @@
                     </div>
                 </div>
             </div>
+                <section class="events">
+                    <h1 class="h6">Nadchodzące wydarzenia w których bierzesz udział</h1>
+                    <div id="event-1" class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tytuł</th>
+                                <th scope="col">Opis</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Typ</td>
+                                <th scope="col">Data wydarzenia</th>
+                                <th scope="col">Akcja</th>
+                            </tr>
+                            <?php foreach ($events as $event): ?>
+                                <?php $lp++?>
+                                <tr>
+                                    <td><?php echo $lp?></td>
+                                    <td><?= $event->getTitle()?></td>
+                                    <td><?= $event->getDescription()?></td>
+                                    <td><?= $event->getStatus()?></td>
+                                    <td><?= $event->getType()?></td>
+                                    <td><?= $event->getEventDate()?></td>
+
+                                    <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?event_id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
+                                </tr>
+                            <?php endforeach;?>
+                        </table>
+                    </div>
+                </section>
+        </main>
+
+
     </div>
 
 

@@ -103,16 +103,12 @@ class SecurityController extends AppController
     public function register(){
 
         if(!$this->isAdmin()){
-
             return $this->logOut();
-
         }
 
         if (!$this->isPost()) {
             return $this->render('register');
         }
-
-
 
         $email = $_POST['email'];
         $user_exist = $this->userRepository->getUser($email);
@@ -123,7 +119,7 @@ class SecurityController extends AppController
             ]);
         }
 
-        $password = $_POST['password'];
+        $password = null;
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $phone = $_POST['phone'];
@@ -136,8 +132,7 @@ class SecurityController extends AppController
         $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
         $this->userRepository->addUser($user,$activation_code);
 
-
-        $this->render('login', ['messages' => ['Sprawdź e-mail w celu potwierdzenia rejestracji'],
+        return $this->render('login', ['messages' => ['Sprawdź e-mail w celu potwierdzenia rejestracji'],
            'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
 
     }
@@ -148,18 +143,32 @@ class SecurityController extends AppController
         if ($_GET['email'] && $_GET['activation_code']) {
             $email = $_GET['email'];
             $user = $this->userRepository->getUser($email);
-            $user_det_id = $this->userRepository->getUserDetailsId($user);
 
             if ($user->getActive() == 1) {
                 return $this->render('login', ['messages' => ['Konto zostało już wcześniej aktywowane'],
                     'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-            } else {
-                $this->userRepository->activeUser($user_det_id, $_GET['activation_code']);
+            }
+            return $this->render('register-new-pass',['email'=> $email,'activation_code'=>$_GET['activation_code']]);
+
+        }
+        if(isset($_POST['password'])&&isset($_POST['confirmed_pass'])&&isset($_POST['activation_code'])&&isset($_POST['email'])){
+            if($_POST['password'] == $_POST['confirmed_pass']){
+
+                $user = $this->userRepository->getUser($_POST['email']);
+                $user_det_id = $this->userRepository->getUserDetailsId($user);
+                $user_id = $this->userRepository->getUserId($_POST['email']);
+
+                $this->userRepository->changePassword(md5($_POST['password']),$user_id);
+                $this->userRepository->activeUser($user_det_id, $_POST['activation_code']);
                 return $this->render('login', ['messages' => ['Konto zostało aktywowane'],
                     'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+
             }
 
         }
+
+
+
     }
 
 

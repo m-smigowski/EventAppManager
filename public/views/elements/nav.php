@@ -20,8 +20,8 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                         </a>
                        
                     </li>
-
-                    <li class="nav-item">
+                    
+                    <!---------------<li class="nav-item">
                         <a class="nav-link" href="/meetings">
                             <span data-feather="meetings" class="align-text-bottom"></span>
                             Spotkania
@@ -32,11 +32,12 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                             <span data-feather="magazine" class="align-text-bottom"></span>
                             Magazyn
                         </a>
-                    </li>
+                    </li>>-------------->
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/usersPanel">
                             <span data-feather="users" class="align-text-bottom"></span>
-                            Panel użytkownika
+                            Panel Użytkownika
                         </a>
                     </li>
                 ';
@@ -47,7 +48,6 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                             Panel Administratora
                         </a>
                     </li> </div></nav></ul>';
-
                 }else{
                     echo '</li> </div></nav></ul>';
                 }

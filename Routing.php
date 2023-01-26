@@ -3,10 +3,10 @@
 require_once 'src/controllers/DefaultController.php';
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/PasswordResetController.php';
-require_once 'src/controllers/ProjectController.php';
 require_once 'src/controllers/MainController.php';
 require_once 'src/controllers/EventController.php';
 require_once 'src/controllers/UsersPanelController.php';
+require_once 'src/controllers/adminPanelController.php';
 
 
 class Router {

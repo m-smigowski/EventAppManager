@@ -15,6 +15,8 @@ class EventRepository extends Repository
 
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
+
+
         if ($event == false) {
             return null;
         }
@@ -72,6 +74,47 @@ class EventRepository extends Repository
         }
         return $result;
     }
+
+    public function getUpcomingEventsById($date,$id)/*: array*/
+    {
+        $result = [];
+        $stmt = $this->database->connect()->prepare('
+        SELECT id_events FROM user_event WHERE id_users = ?
+        ');
+        $stmt->execute([$id]);
+        $id_events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($id_events == false) {
+            return null;
+        }
+
+        $arr = array_column($id_events, 'id_events'); // pobieranie wartości z pojedynczej kolumny
+        $arr_to_string = implode(',', $arr);
+
+        $stmt = $this->database->connect()->prepare('
+        SELECT * FROM events WHERE event_date>=? AND id IN ('.$arr_to_string.')');
+
+        $stmt->execute([$date]);
+        $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($events == false) {
+            return null;
+        }
+
+        foreach ($events as $event){
+            $result[] = new Event(
+                $event['id'],
+                $event['title'],
+                $event['description'],
+                $event['status'],
+                $event['type'],
+                $event['event_date'],
+            );
+        }
+        return $result;
+
+    }
+
 
 
     public function getPastEvents($date): array
