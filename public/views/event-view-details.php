@@ -64,10 +64,11 @@
                             <td>BRAK DODANYCH PRACOWNIKÓW</td>
                             <td></td>
                             <td></td></tr>
-                            </table>
-                            <button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventEditWorkers?event_id='
-                                .$event->getId().'">Edytuj</a></button>
-                            ';
+                            </table>';
+                            if($_SESSION['user_status']===3) {
+                                echo ' <button type = "button" class="btn-edit btn btn-primary btn-sm" >
+                                               <a href = "eventEditWorkers?event_id='.$event->getId().'" > Edytuj</a ></button >';
+                            }
                             return null;}
 
                         ?>

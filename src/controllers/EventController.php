@@ -40,7 +40,6 @@ class EventController extends AppController
             return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
         }
 
-
         $date = date('Y-m-d');
         $events = $this->eventRepository->getPastEvents($date);
         $past_info = "$('.nav-item [href='/pastEvents']').addClass('active');";
