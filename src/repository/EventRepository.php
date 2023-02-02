@@ -15,8 +15,6 @@ class EventRepository extends Repository
 
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-
         if ($event == false) {
             return null;
         }
@@ -28,6 +26,7 @@ class EventRepository extends Repository
             $event['status'],
             $event['type'],
             $event['event_date'],
+            $event['id_assigned_by']
         );
     }
 
@@ -48,9 +47,20 @@ class EventRepository extends Repository
                 $event['status'],
                 $event['type'],
                 $event['event_date'],
+                $event['id_assigned_by']
             );
         }
         return $result;
+    }
+
+    public function getLastEventId():int{
+        $stmt = $this->database->connect()->prepare('
+        SELECT id FROM events ORDER BY id DESC;
+        ');
+        $stmt->execute();
+        $last_event_id =  $stmt->fetchColumn();
+
+        return $last_event_id;
     }
 
     public function getUpcomingEvents($date): array
@@ -70,6 +80,7 @@ class EventRepository extends Repository
                 $event['status'],
                 $event['type'],
                 $event['event_date'],
+                $event['id_assigned_by']
             );
         }
         return $result;
@@ -109,6 +120,7 @@ class EventRepository extends Repository
                 $event['status'],
                 $event['type'],
                 $event['event_date'],
+                $event['id_assigned_by']
             );
         }
         return $result;
@@ -133,6 +145,7 @@ class EventRepository extends Repository
                 $event['status'],
                 $event['type'],
                 $event['event_date'],
+                $event['id_assigned_by']
             );
         }
         return $result;
@@ -177,35 +190,37 @@ class EventRepository extends Repository
 
     }
 
-    public function removeEvent(int $id)
+    public function removeEvent(int $event_id)
     {
         $stmt = $this->database->connect()->prepare('
             DELETE FROM events WHERE id=:id
         ');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $event_id, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+
+
 
 
     // Event View Details //
 
 
-    public function getIdUsersInEvent($id) // Pobieranie Id użytkowników przypisanych do danego wydarzenia
+    public function getUsersInEvent(int $event_id): ?array
     {
         $stmt = $this->database->connect()->prepare('
         SELECT id_users FROM user_event WHERE id_events=?
         ');
-        $stmt->execute([$id]);
-        $users =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute([$event_id]);
+        $users_id =  $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($users == false) {
+        if ($users_id == false) {
             return null;
         }
-        return $users;
-    }
 
-    public function getUsersInEvent($arr_to_string,int $event_id): ?array
-    {
+        $arr = array_column($users_id, 'id_users'); // pobieranie wartości z pojedynczej kolumny
+        $arr_to_string = implode(',', $arr); // zamiana tablicy na typ string
+
         $result = [];
         $stmt = $this->database->connect()->prepare('
         SELECT ud.name,ud.surname, uer.role_name
@@ -250,6 +265,49 @@ class EventRepository extends Repository
         return $result;
     }
 
+
+    public function getAllUsers($event_id): ?array // Wszyscy użytkownicy, którzy jeszcze nie są przypisani do wydarzenia
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT id_users FROM user_event WHERE id_events=?
+        ');
+        $stmt->execute([$event_id]);
+        $users_id =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($users_id == false) {
+            $stmt = $this->database->connect()->prepare('
+            SELECT ud.name,ud.surname FROM users u LEFT JOIN users_details ud 
+            ON u.id_user_details = ud.id
+        ');
+            $stmt->execute();
+
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($users == false) {
+                return null;
+            }
+            return $users;
+        }
+
+        $arr = array_column($users_id, 'id_users'); // pobieranie wartości z pojedynczej kolumny
+        $arr_to_string = implode(',', $arr); // zamiana tablicy na typ string
+
+        $stmt = $this->database->connect()->prepare('
+            SELECT ud.name,ud.surname FROM users u LEFT JOIN users_details ud 
+            ON u.id_user_details = ud.id WHERE u.id NOT IN ('.$arr_to_string.')
+        ');
+        $stmt->execute();
+
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($users == false) {
+            return null;
+        }
+
+        return $users;
+
+    }
+
     //Dodawanie nowego pracownika do wydarzenia
     public function addUserEvent(array $name_surname, int $event_id, string $user_role_name){
 
@@ -275,7 +333,6 @@ class EventRepository extends Repository
         $stmt->execute();
         $id_user_role_name = $stmt->fetchColumn();
 
-
         $stmt = $this->database->connect()->prepare('
         INSERT INTO user_event(id_users,id_events,id_roles)
         VALUES (?,?,?)
@@ -286,7 +343,6 @@ class EventRepository extends Repository
             $event_id,
             $id_user_role_name
         ]);
-
 
     }
 
@@ -329,6 +385,36 @@ class EventRepository extends Repository
 
     }
 
+    public function addLog($id_users,$log_content){
+        $stmt = $this->database->connect()->prepare('
+        INSERT INTO events_logs(id_users,log_content,date)
+        VALUES (?,?,CURRENT_TIMESTAMP)
+        ');
+        $stmt->execute([
+            $id_users,
+            $log_content,
+        ]);
+
+    }
+
+
+    public function getEventsLogs() // Pobieranie wszystkich logów w bazie
+    {
+        $result = [];
+        $stmt = $this->database->connect()->prepare('
+        SELECT ud.name, ud.surname, el.log_content, el.date FROM events_logs el 
+            INNER JOIN users u ON el.id_users = u.id
+            INNER JOIN users_details ud on u.id_user_details = ud.id
+            ORDER BY EL.date DESC LIMIT 10
+
+        ');
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+        return $result;
+    }
 
 
 

@@ -4,7 +4,7 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/main">
-                            <span data-feather="home" class="align-text-bottom"></span>
+                            <span data-feather="main" class="align-text-bottom"></span>
                             Strona główna
                         </a>
                     </li>
@@ -15,7 +15,7 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                         </a>
                         
                         <a class="nav-link hidden-link" href="/pastEvents">
-                            <span data-feather="events" class="align-text-bottom"></span>
+                            <span data-feather="pastEvents" class="align-text-bottom"></span>
                             - Archiwalne
                         </a>
                        
@@ -26,13 +26,13 @@ echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar
                             <span data-feather="meetings" class="align-text-bottom"></span>
                             Spotkania
                         </a>
-                    </li>
+                    </li>>-------------->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="magazine" class="align-text-bottom"></span>
+                        <a class="nav-link" href="/depot">
+                            <span data-feather="warehouse" class="align-text-bottom"></span>
                             Magazyn
                         </a>
-                    </li>>-------------->
+                    </li>
                     
                     <li class="nav-item">
                         <a class="nav-link" href="/usersPanel">

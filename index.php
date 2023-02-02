@@ -28,9 +28,12 @@ Router::get('eventEditWorkers', 'EventController');
 Router::get('dropWorkerFromEvent', 'EventController');
 Router::get('updateEvent', 'EventController');
 
+Router::get('depot', 'DepotController');
+
 Router::get('modifyEventRole', 'AdminPanelController');
 Router::get('addEventRole', 'AdminPanelController');
 Router::get('dropEventRole', 'AdminPanelController');
+
 
 
 Router::post('login', 'SecurityController');

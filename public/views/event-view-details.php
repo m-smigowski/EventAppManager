@@ -37,6 +37,7 @@
                     <p>Status:<?= $event->getStatus()?></p>
                     <p>Typ:<?= $event->getType()?></p>
                     <p>Data wydarzenia: <?= $event->getEventDate()?></p>
+                    <p>Dodane przez: <?php echo $user->getName()." ".$user->getSurname();?></p>
                     <?php
                     if($_SESSION['user_status']===3) {
                     echo '<button type="button" class="btn-edit btn btn-primary btn-sm">

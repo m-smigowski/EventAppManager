@@ -28,9 +28,9 @@ class MainController extends AppController {
         $date = date('Y-m-d');
         $events = $this->eventRepository->getUpcomingEventsById($date,$id);
 
+        $events_logs = $this->eventRepository->getEventsLogs();
 
-        return $this->render('main', ['events' => $events,'title'=>"Nadchodzące wydarzenia"]);
-
+        return $this->render('main', ['events' => $events,'title'=>"Nadchodzące wydarzenia",'events_logs'=>$events_logs]);
 
     }
 

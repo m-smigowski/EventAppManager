@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-                <section class="events">
+                <section class="coming-events">
                     <h1 class="h6">Nadchodzące wydarzenia w których bierzesz udział</h1>
                     <div id="event-1" class="table-responsive">
                         <table class="table table-striped table-sm">
@@ -36,7 +36,16 @@
                                 <th scope="col">Data wydarzenia</th>
                                 <th scope="col">Akcja</th>
                             </tr>
-                            <?php foreach ($events as $event): ?>
+                            <?php if($events === null){
+                                echo '
+                                <tr><td></td><td>Obecnie nie jesteś dodany do żadnego wydarzenia. </td>
+                                <td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                                </table>';
+                                }
+                            ?>
+
+                            <?php if($events !== null) foreach ($events as $event): ?>
                                 <?php $lp++?>
                                 <tr>
                                     <td><?php echo $lp?></td>
@@ -45,12 +54,30 @@
                                     <td><?= $event->getStatus()?></td>
                                     <td><?= $event->getType()?></td>
                                     <td><?= $event->getEventDate()?></td>
-
                                     <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?event_id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
                                 </tr>
                             <?php endforeach;?>
                         </table>
                     </div>
+                </section>
+                <section class="last-changes">
+                    <h1 class="h6"> Ostatnie zmiany w systemie:</h1>
+                    <table  class="table table-striped table-sm">
+                        <tr>
+                            <th>Kto dokonał zmian</th>
+                            <th>Co zrobił</th>
+                            <th>Data</th>
+                        </tr>
+                    <?php
+                    foreach ($events_logs as $event_log){
+                        echo "<tr>";
+                        echo "<td>".$event_log['name']." ".$event_log['surname']."</td>";
+                        echo "<td>".$event_log['log_content']."</td>";
+                        echo "<td>".$event_log['date']."</td>";
+                        echo '</tr>';
+                    }
+                    ?>
+                    </table>
                 </section>
         </main>
 

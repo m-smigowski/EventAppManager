@@ -7,6 +7,7 @@ require_once 'src/controllers/MainController.php';
 require_once 'src/controllers/EventController.php';
 require_once 'src/controllers/UsersPanelController.php';
 require_once 'src/controllers/adminPanelController.php';
+require_once 'src/controllers/DepotController.php';
 
 
 class Router {

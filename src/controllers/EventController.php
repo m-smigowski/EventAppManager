@@ -81,14 +81,17 @@ class EventController extends AppController
         }
 
         if ($this->isPost()) {
-            if (isset($_POST['EventUP'])) {
-                $event = new Event($_POST['event_id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],);
-                $this->eventRepository->updateEvent($event);
+            if (isset($_POST['EventUP'])) { // aktualizowanie wydarzenia
 
-                return $this->redirect('/eventViewDetails?event_id=' . $_POST['id']);
-            } elseif (isset($_POST['EventDEL'])) {
+                $event = new Event($_POST['event_id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],$_POST['assigned_by_id']);
+                $this->eventRepository->updateEvent($event);
+                $this->eventRepository->addLog($_SESSION['user_id'],"Zaktualizował szczegóły wydarzenia ".
+                "<a href='/eventViewDetails?event_id=".$_POST['event_id']."'>".$_POST['title'])."</a>";
+                return $this->redirect('/eventViewDetails?event_id=' . $_POST['event_id']);
+            } elseif (isset($_POST['EventDEL'])) { // usuwanie wydarzenia
                 $event_id = $_POST['event_id'];
                 $this->eventRepository->removeEvent($event_id);
+                $this->eventRepository->addLog($_SESSION['user_id'],"Usunął wydarzenie  ".$_POST['title']);
                 return $this->redirect('/events');
             }
         }
@@ -107,14 +110,14 @@ class EventController extends AppController
         }
 
         if ($this->isPost()) {
-            $event = new Event($_POST['id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],);
-
+            $event_id = ($this->eventRepository->getLastEventId())+1;
+            $event = new Event($event_id,$_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'], $_POST['event_date'],$_SESSION['user_id']);
             $this->eventRepository->addEvent($event);
+            $this->eventRepository->addLog($_SESSION['user_id'],"Dodał wydarzenie <a href='/eventViewDetails?event_id=".$event_id."'>".$_POST['title'])."</a>";
             $events = $this->eventRepository->getEvents();
 
             return $this->redirect('/events');
         }
-
         $this->render('add-event');
     }
 
@@ -127,21 +130,25 @@ class EventController extends AppController
 
         $event_id = $_GET['event_id'];
         $event = $this->eventRepository->getEvent($event_id);
+        $assignedBy_id = $event->getIdAssignedBy();
+        $user = $this->userRepository->getUserById($assignedBy_id);
 
-        $event_users_ids = $this->eventRepository->getIdUsersInEvent($event_id);
-        if ($event_users_ids === null) {
+
+
+        if($event==null){
+            return $this->redirect('/events');
+        }
+        $event_users = $this->eventRepository->getUsersInEvent($event_id);
+
+        if ($event_users === null) {
             $event_users[] = new UserInEvent(
                 $usersInEvent['name'] = null,
                 $usersInEvent['surname'] = null,
                 $usersInEvent['role_name']= null,
             );
-        } else {
-            $arr = array_column($event_users_ids, 'id_users');
-            $arr_to_string = implode(',', $arr);
-            $event_users = $this->eventRepository->getUsersInEvent($arr_to_string,$event_id);
         }
 
-        $this->render('event-view-details', ['event' => $event, 'usersInEvent' => $event_users]);
+        $this->render('event-view-details', ['event' => $event, 'usersInEvent' => $event_users,'user'=>$user]);
     }
 
     public function eventEditWorkers()
@@ -158,32 +165,38 @@ class EventController extends AppController
             $name_surname = explode(' ',$_POST['user_name_and_surname']);
             $user_role_name = $_POST['user_role'];
             $this->eventRepository->addUserEvent($name_surname,$event_id,$user_role_name);
+            $event = $this->eventRepository->getEvent($event_id);
+            $this->eventRepository->addLog($_SESSION['user_id'],"Dodał pracownika ".$_POST['user_name_and_surname'].
+                " do wydarzenia <a href='/eventViewDetails?event_id=".$event_id."'>".$event->getTitle()."</a>");
         }
 
         if(!empty($_GET['event_id']) && !empty($_GET['name']) &&
             !empty($_GET['surname']) && !empty($_GET['role_name'])){
             $this->eventRepository->dropUserEvent($_GET['event_id'],$_GET['name'],$_GET['surname'],$_GET['role_name']);
+            $event = $this->eventRepository->getEvent($event_id);
+            $this->eventRepository->addLog($_SESSION['user_id'],"Usunął pracownika ".$_GET['name']." ".$_GET['surname'].
+                " z wydarzenia <a href='/eventViewDetails?event_id=".$event_id."'>".$event->getTitle()."</a>");
         }
 
-        $event_users_ids = $this->eventRepository->getIdUsersInEvent($event_id);
-        $all_users = $this->userRepository->getAllUsers();
+        $all_users = $this->eventRepository->getAllUsers($event_id);
         $all_roles = $this->eventRepository->getAllRoles();
 
-        if ($event_users_ids === null) {
+        $event_users = $this->eventRepository->getUsersInEvent($event_id);
+
+
+        if ($event_users === null) {
             $event_users[] = new UserInEvent(
                 $usersInEvent['name'] = null,
                 $usersInEvent['surname'] = null,
                 $usersInEvent['role_name']= null,
             );
-        } else {
-            $arr = array_column($event_users_ids, 'id_users'); // pobieranie wartości z pojedynczej kolumny
-            $arr_to_string = implode(',', $arr); // zamiana tablicy na typ string
-            $event_users = $this->eventRepository->getUsersInEvent($arr_to_string,$event_id);
         }
 
         $this->render('event-edit-workers', ['usersInEvent' => $event_users, 'users' => $all_users,
             'roles'=> $all_roles,'event_id'=>$event_id]);
     }
+
+
 
 
 }
