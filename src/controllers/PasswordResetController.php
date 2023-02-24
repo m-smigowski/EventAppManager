@@ -3,7 +3,6 @@
 require_once 'AppController.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
-require_once __DIR__ . '/../repository/EmailRepository.php';
 
 
 class PasswordResetController extends AppController
@@ -15,7 +14,6 @@ class PasswordResetController extends AppController
     {
         parent::__construct();
         $this->userRepository = new UserRepository();
-        $this->emailRepository = new EmailRepository();
     }
 
 
@@ -48,7 +46,7 @@ class PasswordResetController extends AppController
             ";
         $this->userRepository->pwdDrop($email);
         $this->userRepository->pwdReset($email, $selector, $token, $expires);
-        $this->emailRepository->sendEmail($email, 'Hasło zostało zresetowane! Potwierdz reset hasła. ', $msg);
+        $this->sendEmail($email, 'Hasło zostało zresetowane! Potwierdz reset hasła. ', $msg);
 
 
         return $this->render('forgot-pass', ['messages' => ['Sprawdź skrzynkę mailową, żeby zresetować hasło.'],

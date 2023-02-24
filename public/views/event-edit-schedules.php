@@ -15,7 +15,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <?php include 'public/views/elements/nav.php'?>
+        <?php include 'public/views/elements/nav.php' ?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h3">Edycja pracowników przypisanych do wydarzenia</h1>
@@ -32,49 +32,53 @@
                     <div id="event-1" class="table-responsive">
                         <table class="table table-striped table-sm">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Imie</th>
-                                <th scope="col">Nazwisko</th>
-                                <th scope="col">Stanowisko pracy</th>
-                                <th scope="col">akcja</th>
+                                <th scope="col">Od</th>
+                                <th scope="col">Do</th>
+                                <th scope="col">Tytuł</th>
+                                <th scope="col">Opis pracy</th>
+                                <th scope="col">Akcja</th>
                             </tr>
                             <?php
-                            foreach ($usersInEvent as $userInEvent): ?>
-
-                                <?php $lp++?>
+                            foreach ($event_schedules as $event_schedule): ?>
                                 <tr>
-                                    <td><?php echo $lp?></td>
-                                    <td><?= $userInEvent->getName()?></td>
-                                    <td><?= $userInEvent->getSurname()?></td>
-                                    <td><?= $userInEvent->getRoleName()?></td>
+                                        <td><?= $event_schedule['start_date']?></td>
+                                        <td><?= $event_schedule['end_date']?></td>
+                                        <td><?= $event_schedule['title']?></td>
+                                        <td><?= $event_schedule['description']?></td>
                                     <td><button type="button" class="btn-edit btn btn-primary btn-sm">
-                                            <a href="eventEditWorkers?event_id=<?php echo $event_id?>&name=<?= $userInEvent->getName()?>&surname=<?=$userInEvent->getSurname()?>&role_name=<?=$userInEvent->getRoleName()?>">Usuń</a></button></td>
+                                    <a href="eventEditSchedules?event_id=<?php echo $_GET['event_id']?>&event_schedule_id=<?= $event_schedule['id']?>">
+                                        Usuń</a></button></td>
                                     <?php endforeach;?>
                                 </tr>
                         </table>
                     </div>
 
-                        <form action="eventEditWorkers?event_id=<?php echo $event_id?>" method="POST" ENCTYPE="multipart/form-data">
+                        <form action="eventEditSchedules?event_id=<?=$event->getId()?>" method="POST" ENCTYPE="multipart/form-data">
                             <div class="row">
-                                <div class="col">
-                                    <select name="user_name_and_surname" class="form-control">
-
-                                        <?php foreach ($users as $user): ?>
-                                        <option value="<?= $user['name'];?> <?=$user['surname']?> <?=$user['id']?>"><?= $user['name'];?> <?=$user['surname']?></option>
-                                        <?php endforeach;?>
-                                    </select>
+                                <div class="col form-group">
+                                    <label name="start_date">Czas od</label>
+                                    <input name="start_date" type="datetime-local" class="form-control" value="<?= $event->getEventStart()?>">
                                 </div>
-                                <div class="col">
-                                    <select name="user_role" class="form-control">
-                                        <?php foreach ($roles as $role): ?>
-                                            <option value="<?= $role['role_name'];?>"><?= $role['role_name'];?></option>
-                                        <?php endforeach;?>
-                                    </select>
+
+                                <div class="col form-group">
+                                    <label name="end_date">Czas do</label>
+                                    <input name="end_date" type="datetime-local" class="form-control" value="<?= $event->getEventEnd()?>">
+                                </div>
+
+                                <div class="col form-group">
+                                    <label name="title">Tytuł</label>
+                                    <textarea name="title" type="text" class="form-control"></textarea>
+                                </div>
+
+                                <input name="event_id" type="hidden" value="<?=$event->getId()?>">
+                                <div class="col form-group">
+                                    <label name="title">Opis pracy</label>
+                                    <textarea name="description" type="text" class="form-control"></textarea>
                                 </div>
 
                             </div>
                             <button type="submit" class="btn btn-success" value="Zaktualizuj">Dodaj</button>
-                            <button type="submit" class="btn btn-danger" onclick="history.back()" >Wróć</button>
+                            <button class="btn btn-danger"><a href="eventViewDetails?event_id=<?=$event->getId()?>">Wróć</a></button>
 
                         </form>
 

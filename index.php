@@ -28,7 +28,13 @@ Router::get('eventEditWorkers', 'EventController');
 Router::get('dropWorkerFromEvent', 'EventController');
 Router::get('updateEvent', 'EventController');
 
+Router::post('searchDepot', 'DepotController');
+Router::get('eventEditSchedules', 'EventController');
+Router::get('eventEditEquipment', 'DepotController');
+Router::post('addEquipmentToRent', 'DepotController');
 Router::get('depot', 'DepotController');
+Router::post('addDepotItem', 'DepotController');
+Router::post('editDepotItem', 'DepotController');
 
 Router::get('modifyEventRole', 'AdminPanelController');
 Router::get('addEventRole', 'AdminPanelController');
@@ -41,6 +47,6 @@ Router::post('logOut', 'AppController');
 Router::post('register', 'SecurityController');
 Router::post('addEvent', 'EventController');
 Router::post('addEventAction', 'EventController');
-Router::post('search', 'ProjectController');
+Router::post('search', 'EventController');
 
 Router::run($path);

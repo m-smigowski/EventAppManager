@@ -12,7 +12,7 @@
 <body>
 
 <?php include 'public/views/elements/header.php';?>
-
+<?php include 'public/views/elements/modal.php';?>
 <div class="container-fluid">
     <div class="row">
         <?php include 'public/views/elements/nav.php'?>
@@ -28,41 +28,51 @@
                 </div>
             </div>
 
-            <section class="events-edit">
-                <form action="updateEvent" method="POST" ENCTYPE="multipart/form-data">
+            <section class="event-edit w-75">
+                <form name="event-form" onsubmit="" action="updateEvent" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Tytuł</label>
-                        <input name="title" type="text" class="form-control" value="<?= $event->getTitle()?>">
+                        <input name="title" type="text" class="form-control" value="<?= $event->getTitle()?>" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Opis wydarzenia</label>
-                        <textarea name="description" class="form-control"  rows="3"><?= $event->getDescription()?></textarea>
+                        <textarea name="description" class="form-control"  rows="3" required><?= $event->getDescription()?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <input name="status"type="text" class="form-control"  value="<?= $event->getStatus()?>">
+                        <select name="status" type="text"  class="form-control" required value="<?=$event->getStatus();?>">
+                            <option>Potwierdzone</option>
+                            <option>Niepotwierdzone</option>
+                            <option>Odwołane</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="event_Type">Typ wydarzenia</label>
-                        <input name="type" type="text" class="form-control"  value="<?= $event->getType()?>">
+                        <input name="type" type="text" class="form-control" value="<?= $event->getType()?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="event_Date">Data</label>
-                        <input name="event_date" type="date" class="form-control" value="<?= $event->getEventDate()?>">
+                        <label for="event_start">Data startu</label>
+                        <input name="event_start" type="datetime-local" class="form-control" value="<?= $event->getEventStart()?>"required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event_end">Data zakończenia</label>
+                        <input name="event_end" type="datetime-local" class="form-control" value="<?= $event->getEventEnd()?>"required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Lokalizacja wydarzenia</label>
+                        <input name="location" type="text" class="form-control" value="<?= $event->getLocation()?>">
                     </div>
 
                     <input name="event_id" type="hidden" value="<?= $event->getID()?>">
                     <input name="assigned_by_id" type="hidden" value="<?= $event->getIdAssignedBy()?>">
 
-
-                    <button type="submit" class="btn btn-success" value="Zaktualizuj" name="EventUP" >Zaktualizuj</button>
-                    <button type="submit" class="btn btn-danger" value="Usuń" name="EventDEL" >Usuń</button>
-
+                    <button type="submit" class="btn btn-success mt-2" name="update">Zaktualizuj</button>
+                    <button type="submit" class="btn btn-danger mt-2" name="drop">Usuń</button>
                 </form>
 
             </section>
     </div>
-
+    <script type="text/javascript" src="./public/js/event-valid.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 

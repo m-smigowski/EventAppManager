@@ -33,7 +33,8 @@
                                 <th scope="col">Opis</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Typ</td>
-                                <th scope="col">Data wydarzenia</th>
+                                <th scope="col">Data rozpoczęcia</th>
+                                <th scope="col">Data zakończenia</th>
                                 <th scope="col">Akcja</th>
                             </tr>
                             <?php if($events === null){
@@ -53,7 +54,8 @@
                                     <td><?= $event->getDescription()?></td>
                                     <td><?= $event->getStatus()?></td>
                                     <td><?= $event->getType()?></td>
-                                    <td><?= $event->getEventDate()?></td>
+                                    <td><?= date_format(date_create($event->getEventStart()),"H:i d/m/Y")?></td>
+                                    <td><?= date_format(date_create($event->getEventEnd()),"H:i d/m/Y")?></td>
                                     <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?event_id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
                                 </tr>
                             <?php endforeach;?>
@@ -89,5 +91,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="public/js/style.js"></script>
     <script>$('.nav-item [href="/main"]').addClass("active");</script>
+
+
 </body>
 </html>

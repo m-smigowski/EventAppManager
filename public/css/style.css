@@ -11,7 +11,6 @@ body {
     vertical-align: text-bottom;
 }
 
-
 .container{
     height: 100vh;
 }
@@ -107,8 +106,6 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
-
-
 /*
  * Utilities
  */
@@ -117,10 +114,17 @@ body {
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
 
-button[type="submit"] .btn .btn-danger >{
+button.btn.btn-danger > a{
     color: white;
     text-decoration: none!important;
 }
+button.btn-edit>a{
+    color: white!important;
+    text-decoration: none;
+}
+
+
+
 
 .a-btn{
     display: block;
@@ -132,8 +136,5 @@ button[type="submit"] .btn .btn-danger >{
 
 /*EVENTS DETAILS*/
 
-.btn-edit>a{
-    text-decoration: none;
-    display: block;
-    color: white;
-}
+
+

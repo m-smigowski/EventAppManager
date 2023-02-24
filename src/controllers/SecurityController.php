@@ -3,7 +3,6 @@
 require_once 'AppController.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__.'/../repository/UserRepository.php';
-require_once __DIR__.'/../repository/EmailRepository.php';
 
 class SecurityController extends AppController
 {
@@ -14,7 +13,6 @@ class SecurityController extends AppController
     {
         parent::__construct();
         $this->userRepository = new UserRepository();
-        $this->emailRepository = new EmailRepository();
     }
 
     public function login()
@@ -95,7 +93,7 @@ class SecurityController extends AppController
             $activation_link;
 
         // send the email
-        $this->emailRepository->sendEmail($email, $subject, $body);
+        $this->sendEmail($email, $subject, $body);
 
     }
 

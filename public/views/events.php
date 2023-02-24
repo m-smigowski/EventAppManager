@@ -7,21 +7,27 @@
     <title>Wydarzenia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="public/css/style.css" rel="stylesheet">
-
 </head>
 <style>
-
     .btn-edit>a{
         text-decoration: none;
         display: block;
         color: white;
     }
-
 </style>
 <body>
-
-<?php include 'public/views/elements/header.php';?>
-
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">EVENT MANAGER APP</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <input id="search-input" class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Wyszukaj wydarzenia po tytule" aria-label="Search">
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+            <a class="nav-link px-3" href="/logOut">Wyloguj</a>
+        </div>
+    </div>
+</header>
 <div class="container-fluid">
   <div class="row">
       <?php include 'public/views/elements/nav.php'?>
@@ -37,30 +43,36 @@
         </div>
       </div>
 
-        <section class="events">
-            <div id="event-1" class="table-responsive">
-                <table class="table table-striped table-sm">
+        <section >
+            <div class="table-responsive">
+                <table class="table table-hover table align-middle">
+                    <thead class="table-secondary table align-middle">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Tytuł</th>
                         <th scope="col">Opis</th>
                         <th scope="col">Status</th>
                         <th scope="col">Typ</td>
-                        <th scope="col">Data wydarzenia</th>
+                        <th scope="col">Data rozpoczęcia</th>
+                        <th scope="col">Data zakończenia</th>
                         <th scope="col">Akcja</th>
                     </tr>
+                    </thead>
+                    <tbody class="events">
                     <?php foreach ($events as $event): ?>
                     <?php $lp++?>
-                        <tr>
+                        <tr >
                             <td><?php echo $lp?></td>
                             <td><?= $event->getTitle()?></td>
                             <td><?= $event->getDescription()?></td>
                             <td><?= $event->getStatus()?></td>
                             <td><?= $event->getType()?></td>
-                            <td><?= $event->getEventDate()?></td>
+                            <td><?= date_format(date_create($event->getEventStart()),"H:i d/m/Y")?></td>
+                            <td><?= date_format(date_create($event->getEventEnd()),"H:i d/m/Y")?></td>
                             <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="eventViewDetails?event_id=<?= $event->getId()?>">Zobacz więcej</a></button></td>
                         </tr>
                     <?php endforeach;?>
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -68,7 +80,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="public/js/style.js"></script>
+    <script type="text/javascript" src="./public/js/search.js"></script>
 
     <script>
 
@@ -82,4 +94,17 @@
     </script>
 
 </body>
+
+<template id="event-template">
+    <tr>
+        <td class="event-id"></td>
+        <td class="event-title"></td>
+        <td class="event-desc"></td>
+        <td class="event-status"></td>
+        <td class="event-type"></td>
+        <td class="event-start"></td>
+        <td class="event-end"></td>
+        <td><button type="button" class="btn-edit btn btn-primary btn-sm"></button></td>
+    </tr>
+</template>
 </html>

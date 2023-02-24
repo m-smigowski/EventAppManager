@@ -1,5 +1,7 @@
-const search = document.querySelector('input[placeholder="search project"]');
-const projectContainer = document.querySelector(".projects");
+const search = document.querySelector("#search-input");
+const eventContainer = document.querySelector(".events");
+const titleH2 = document.querySelector("h1.h2");
+
 
 search.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
@@ -15,36 +17,50 @@ search.addEventListener("keyup", function (event) {
             body: JSON.stringify(data)
         }).then(function (response) {
             return response.json();
-        }).then(function (projects) {
-            projectContainer.innerHTML = "";
-            loadProjects(projects)
+        }).then(function (events) {
+            eventContainer.innerHTML = "";
+            loadEvents(events)
         });
     }
 });
 
-function loadProjects(projects) {
-    projects.forEach(project => {
-        console.log(project);
-        createProject(project);
+function loadEvents(events) {
+    events.forEach(event => {
+        console.log(event);
+        createEvent(event);
     });
 }
+function createEvent(event) {
 
-function createProject(project) {
-    const template = document.querySelector("#project-template");
+
+    const template = document.querySelector("#event-template");
 
     const clone = template.content.cloneNode(true);
-    const div = clone.querySelector("div");
-    div.id = project.id;
-    const image = clone.querySelector("img");
-    image.src = `/public/img/uploads/${project.image}`;
-    const title = clone.querySelector("h2");
-    title.innerHTML = project.title;
-    const description = clone.querySelector("p");
-    description.innerHTML = project.description;
-    const like = clone.querySelector(".fa-heart");
-    like.innerText = project.like;
-    const dislike = clone.querySelector(".fa-minus-square");
-    dislike.innerText = project.dislike;
+    const eventID = clone.querySelector(".event-id");
+    eventID.innerHTML = event.id;
 
-    projectContainer.appendChild(clone);
+    const eventTitle = clone.querySelector(".event-title");
+    eventTitle.innerHTML = event.title;
+
+    const eventDESC = clone.querySelector(".event-desc");
+    eventDESC.innerHTML = event.description;
+
+    const eventStatus = clone.querySelector(".event-status");
+    eventStatus.innerHTML = event.status;
+
+    const eventType = clone.querySelector(".event-type");
+    eventType.innerHTML = event.type;
+
+    const eventS = clone.querySelector(".event-start");
+    eventS.innerHTML = event.eventstart;
+
+    const eventE = clone.querySelector(".event-end");
+    eventE.innerHTML = event.eventend;
+
+    const button = clone.querySelector(".btn-edit");
+    button.innerHTML = `<a href="eventViewDetails?event_id=${event.id}">Zobacz więcej</a>`;
+
+    titleH2.innerHTML = "Wyszukane wydarzenia";
+
+    eventContainer.appendChild(clone);
 }

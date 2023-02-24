@@ -21,7 +21,7 @@
 <body>
 
 <?php include 'public/views/elements/header.php';?>
-
+<?php include 'public/views/elements/modal.php' ?>
 <div class="container-fluid">
   <div class="row">
       <?php include 'public/views/elements/nav.php'?>
@@ -38,39 +38,31 @@
       </div>
 
         <section class="events-edit">
-            <form action="addEvent" method="POST" ENCTYPE="multipart/form-data">
+            <form action="addDepotItem" method="POST" ENCTYPE="multipart/form-data">
                 <div class="form-group">
-                    <label for="title">Tytuł</label>
-                    <input name="title" type="text" class="form-control"">
+                    <label for="name">Nazwa</label>
+                    <input name="name" type="text" class="form-control"">
                 </div>
                 <div class="form-group">
-                    <label for="description">Opis wydarzenia</label>
+                    <label for="description">Opis</label>
                     <textarea name="description" class="form-control" ></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="status">Status</label>
-                    <select name="status" type="text"  class="form-control">
-                        <option>Potwierdzone</option>
-                        <option>Niepotwierdzone</option>
-                        <option>Odwołane</option>
-                    </select>
+                    <label for="image">Zdjęcie produktu</label>
+                    <input name="image" type="file" class="form-control" >
                 </div>
                 <div class="form-group">
-                    <label for="event_Type">Typ wydarzenia</label>
-                    <input name="type" type="text"  class="form-control">
-
+                    <label for="barcode">Barcode</label>
+                    <input name="barcode" type="number" class="form-control"">
                 </div>
                 <div class="form-group">
-                    <label for="event_Date">Data</label>
-                    <input name="event_date" type="date" class="form-control" >
+                    <label for="item_quantity">Stan magazynowy</label>
+                    <input name="item_quantity" type="number"  class="form-control">
                 </div>
-                <input name="id" type="hidden" >
-
+                <input name="id_assigned_by" type="hidden" value="<?php $_SESSION['user_id'];?>" >
                 <button type="submit" class="btn btn-success" >Dodaj</button>
                 <input class="btn btn-primary" type="reset" value="Reset">
-
             </form>
-
         </section>
 </div>
 
@@ -79,6 +71,7 @@
     <script src="public/js/style.js"></script>
 
     <script>
+        <?php echo $display;?>
         $('.nav-item [href="/warehouse"]').addClass("active");
     </script>
 

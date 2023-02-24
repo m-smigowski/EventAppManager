@@ -25,8 +25,10 @@ class EventRepository extends Repository
             $event['description'],
             $event['status'],
             $event['type'],
-            $event['event_date'],
-            $event['id_assigned_by']
+            $event['event_start'],
+            $event['id_assigned_by'],
+            $event['event_end'],
+            $event['location']
         );
     }
 
@@ -34,7 +36,7 @@ class EventRepository extends Repository
     {
         $result = [];
         $stmt = $this->database->connect()->prepare('
-        SELECT * FROM events ORDER BY event_date
+        SELECT * FROM events ORDER BY event_start
         ');
         $stmt->execute();
         $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -46,12 +48,32 @@ class EventRepository extends Repository
                 $event['description'],
                 $event['status'],
                 $event['type'],
-                $event['event_date'],
-                $event['id_assigned_by']
+                $event['event_start'],
+                $event['id_assigned_by'],
+                $event['event_end'],
+                $event['location']
             );
         }
         return $result;
     }
+
+
+    public function getEventByTitle(string $searchString): array
+    {
+        $searchString = '%'.strtolower($searchString).'%';
+        $result = [];
+        $stmt = $this->database->connect()->prepare('
+        SELECT id,title,description,status,type,created_at as createdAt,
+               event_start as eventStart, id_assigned_by as idAssignedBy, 
+               event_end as eventEnd FROM events WHERE LOWER(title) LIKE :search
+               ORDER BY id
+        ');
+        $stmt->bindParam(':search', $searchString, PDO::PARAM_INT);
+        $stmt->execute();
+        return $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
 
     public function getLastEventId():int{
         $stmt = $this->database->connect()->prepare('
@@ -67,7 +89,7 @@ class EventRepository extends Repository
     {
         $result = [];
         $stmt = $this->database->connect()->prepare('
-        SELECT * FROM events WHERE event_date>=? ORDER BY event_date
+        SELECT * FROM events WHERE event_end>=? ORDER BY event_start
         ');
         $stmt->execute([$date]);
         $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -79,8 +101,10 @@ class EventRepository extends Repository
                 $event['description'],
                 $event['status'],
                 $event['type'],
-                $event['event_date'],
-                $event['id_assigned_by']
+                $event['event_start'],
+                $event['id_assigned_by'],
+                $event['event_end'],
+                $event['location'],
             );
         }
         return $result;
@@ -103,7 +127,7 @@ class EventRepository extends Repository
         $arr_to_string = implode(',', $arr);
 
         $stmt = $this->database->connect()->prepare('
-        SELECT * FROM events WHERE event_date>=? AND id IN ('.$arr_to_string.')');
+        SELECT * FROM events WHERE event_start>=? AND id IN ('.$arr_to_string.')');
 
         $stmt->execute([$date]);
         $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -119,8 +143,10 @@ class EventRepository extends Repository
                 $event['description'],
                 $event['status'],
                 $event['type'],
-                $event['event_date'],
-                $event['id_assigned_by']
+                $event['event_start'],
+                $event['id_assigned_by'],
+                $event['event_end'],
+                $event['location']
             );
         }
         return $result;
@@ -133,7 +159,7 @@ class EventRepository extends Repository
     {
         $result = [];
         $stmt = $this->database->connect()->prepare('
-        SELECT * FROM events WHERE event_date < ? ORDER BY event_date');
+        SELECT * FROM events WHERE event_end < ? ORDER BY event_start');
         $stmt->execute([$date]);
         $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -144,8 +170,10 @@ class EventRepository extends Repository
                 $event['description'],
                 $event['status'],
                 $event['type'],
-                $event['event_date'],
-                $event['id_assigned_by']
+                $event['event_start'],
+                $event['id_assigned_by'],
+                $event['event_end'],
+                $event['location']
             );
         }
         return $result;
@@ -156,7 +184,7 @@ class EventRepository extends Repository
     {
         $stmt = $this->database->connect()->prepare('
             UPDATE events 
-            SET title=?,description=?,status=?,type=?,event_date=? WHERE id=?;
+            SET title=?,description=?,status=?,type=?,event_start=?,event_end=?,location=? WHERE id=?;
         ');
 
         $stmt->execute([
@@ -164,7 +192,9 @@ class EventRepository extends Repository
             $event->getDescription(),
             $event->getStatus(),
             $event->getType(),
-            $event->getEventDate(),
+            $event->getEventStart(),
+            $event->getEventEnd(),
+            $event->getLocation(),
             $event->getId(),
         ]);
     }
@@ -173,8 +203,8 @@ class EventRepository extends Repository
     {
         $date = new DateTime();
         $stmt = $this->database->connect()->prepare('
-            INSERT INTO events(title,description,status,type,created_at,event_date, id_assigned_by)
-            VALUES(?,?,?,?,?,?,?);
+            INSERT INTO events(title,description,status,type,created_at,event_start,id_assigned_by,event_end,location)
+            VALUES(?,?,?,?,?,?,?,?,?);
         ');
 
         $assignedById = $_SESSION['user_id'];
@@ -184,8 +214,10 @@ class EventRepository extends Repository
             $event->getStatus(),
             $event->getType(),
             $date->format('Y-m-d'),
-            $event->getEventDate(),
-            $assignedById
+            $event->getEventStart(),
+            $assignedById,
+            $event->getEventEnd(),
+            $event->getLocation(),
         ]);
 
     }
@@ -276,7 +308,7 @@ class EventRepository extends Repository
 
         if ($users_id == false) {
             $stmt = $this->database->connect()->prepare('
-            SELECT ud.name,ud.surname FROM users u LEFT JOIN users_details ud 
+            SELECT ud.name,ud.surname,u.id FROM users u LEFT JOIN users_details ud 
             ON u.id_user_details = ud.id
         ');
             $stmt->execute();
@@ -293,7 +325,7 @@ class EventRepository extends Repository
         $arr_to_string = implode(',', $arr); // zamiana tablicy na typ string
 
         $stmt = $this->database->connect()->prepare('
-            SELECT ud.name,ud.surname FROM users u LEFT JOIN users_details ud 
+            SELECT ud.name,ud.surname,u.id FROM users u LEFT JOIN users_details ud 
             ON u.id_user_details = ud.id WHERE u.id NOT IN ('.$arr_to_string.')
         ');
         $stmt->execute();
@@ -364,7 +396,6 @@ class EventRepository extends Repository
         $id_user = $stmt->fetchColumn();
 
 
-
         $stmt = $this->database->connect()->prepare('
         SELECT uer.id FROM user_event_roles uer WHERE uer.role_name=:rolename ');
 
@@ -384,6 +415,45 @@ class EventRepository extends Repository
         ]);
 
     }
+
+
+    public function getEventSchedules($event_id){
+        $stmt = $this->database->connect()->prepare('
+        SELECT * FROM events_schedules WHERE id_events = :event_id
+
+        ');
+        $stmt->bindParam(':event_id', $event_id, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+
+    public function addEventSchedule($event_id,$title,$description,$start_date,$end_date){
+        $stmt = $this->database->connect()->prepare('
+        INSERT INTO events_schedules(id_events,title,description,start_date,end_date)
+        VALUES (?,?,?,?,?)
+        ');
+        $stmt->execute([
+            $event_id,
+            $title,
+            $description,
+            $start_date,
+            $end_date
+        ]);
+    }
+
+    public function dropEventSchedule($event_id,$event_schedule_id){
+        $stmt = $this->database->connect()->prepare('
+        DELETE FROM events_schedules WHERE id_events=? AND id=?
+        ');
+        $stmt->execute([
+            $event_id,
+            $event_schedule_id
+        ]);
+    }
+
 
     public function addLog($id_users,$log_content){
         $stmt = $this->database->connect()->prepare('
@@ -410,8 +480,6 @@ class EventRepository extends Repository
         ');
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
 
         return $result;
     }
