@@ -9,7 +9,10 @@ Router::get('index', 'DefaultController');
 Router::get('main', 'MainController');
 Router::get('usersPanel', 'UsersPanelController');
 Router::get('activate', 'SecurityController');
+
 Router::get('adminPanel', 'AdminPanelController');
+Router::get('usersList', 'AdminPanelController');
+Router::post('usersListEdit', 'AdminPanelController');
 
 Router::get('forgotPass', 'PasswordResetController');
 Router::get('createNewPassword', 'PasswordResetController');
@@ -39,7 +42,6 @@ Router::post('editDepotItem', 'DepotController');
 Router::get('modifyEventRole', 'AdminPanelController');
 Router::get('addEventRole', 'AdminPanelController');
 Router::get('dropEventRole', 'AdminPanelController');
-
 
 
 Router::post('login', 'SecurityController');

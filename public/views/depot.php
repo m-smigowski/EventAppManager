@@ -5,52 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <title>Magazyn</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="public/css/style.css" rel="stylesheet">
-
 </head>
-<style>
-
-    .btn-edit>a{
-        text-decoration: none;
-        display: block;
-        color: white;
-    }
-
-</style>
 <body>
 
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">EVENT MANAGER APP</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <input id="search-depot-input" class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Wyszukaj sprzęt po nazwie" aria-label="Search">
-    <div class="navbar-nav">
-        <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="/logOut">Wyloguj</a>
-        </div>
-    </div>
-</header>
-
+<?php include 'public/views/elements/header.php';?>
+<?php include 'public/views/elements/modal.php';?>
 <div class="container-fluid">
-  <div class="row">
-      <?php include 'public/views/elements/nav.php'?>
-
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Magazyn</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group ">
-              <button type="button" class="btn btn-sm btn-outline-secondary"><a href="addDepotItem">Dodaj</a></button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick = "location.reload()">Odśwież</button>
-          </div>
-        </div>
-      </div>
+    <div class="row">
+        <?php include 'public/views/elements/nav.php'?>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h3">Magazyn</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="addDepotItem">
+                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
+                    </a>
+                    <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
+                </div>
+            </div>
 
         <section class="depot">
             <div id="depot class="table-responsive">
-                <table class="table table-striped table-sm">
+            <div class="table-responsive">
+                <table class="table table-hover table align-middle">
+                    <thead class="table-secondary table align-middle">
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Zdjęcie</th>
@@ -60,6 +41,7 @@
                         <th scope="col">Stan magazynowy</th>
                         <th scope="col">Akcja</th>
                     </tr>
+                    </thead>
                     <tbody class="items">
                     <?php foreach ($items as $item): ?>
                         <tr>
@@ -69,7 +51,11 @@
                             <td><?= $item->getDescription()?></td>
                             <td><?= $item->getBarcode()?></td>
                             <td><?= $item->getQuantity()?></td>
-                            <td><button type="button" class="btn-edit btn btn-primary btn-sm"><a href="editDepotItem?item_id=<?= $item->getId()?>&barcode=<?= $item->getBarcode()?>">Zobacz więcej</a></button></td>
+                            <td><a href="editDepotItem?item_id=<?= $item->getId()?>&barcode=<?= $item->getBarcode()?>">
+                                <button type="button" class="btn-edit btn btn-primary btn-sm">
+                                    Zobacz więcej
+                                </button></a>
+                            </td>
                         </tr>
                     <?php endforeach;?>
                     </tbody>
@@ -85,7 +71,7 @@
 
     <script>
 
-        $('.nav-item [href="/warehouse"]').addClass("active");
+        $('.nav-link[href="/depot"]').addClass("active");
     </script>
 
 </body>

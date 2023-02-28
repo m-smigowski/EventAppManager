@@ -4,27 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>Edycja wydarzeń</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Edycja przedmiotu w magazynie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="public/css/style.css" rel="stylesheet">
-
 </head>
 <body>
 
 <?php include 'public/views/elements/header.php';?>
-
 <div class="container-fluid">
     <div class="row">
         <?php include 'public/views/elements/nav.php'?>
-
+        <?php include 'public/views/elements/modal.php'?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h3">Edycja przedmiotu</h1>
+                <h1 class="h3">Edycja przedmiotu w magazynie</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group ">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><a href="addEvent">Dodaj</a></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick = "location.reload()">Odśwież</button>
-                    </div>
+                    <a href="addDepotItem">
+                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
+                    </a>
+                    <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
@@ -57,9 +56,9 @@
 
                     <input name="item_id" type="hidden" value="<?= $item->getID()?>">
 
-                    <button type="submit" class="btn btn-success" name="Update">Zaktualizuj</button>
-                    <button type="submit" class="btn btn-danger" name="Drop"> Usuń</button>
-
+                    <button type="submit" class="btn btn-success mt-2 mb-2" name="Update">Zaktualizuj</button>
+                    <button class="btn btn-primary mt-2 mb-2" name="Update">Wróć</button>
+                    <button type="submit" class="btn btn-danger mt-2 mb-2 me-auto" name="Drop"> Usuń</button>
                 </form>
 
             </section>

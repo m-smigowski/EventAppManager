@@ -4,49 +4,49 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>Dodaj wydarzenie</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Edycja stanowisk pracy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="public/css/style.css" rel="stylesheet">
-
 </head>
 <body>
 
 <?php include 'public/views/elements/header.php';?>
-
 <div class="container-fluid">
     <div class="row">
         <?php include 'public/views/elements/nav.php'?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h3">Dodaj stanowisko</h1>
+                <h1 class="h3">Edycja stanowisk pracy</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group ">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"><a href="addEvent">Dodaj</a></button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick = "location.reload()">Odśwież</button>
-                    </div>
+                    <a href="addEvent">
+                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
+                    </a>
+                    <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
             <section class="events-edit">
-                <form action="dropEventRole" method="POST" ENCTYPE="multipart/form-data">
+                <form class="w-75" action="dropEventRole" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
-                        <label>Lista obecnych stanowisk</label>
-                        <select name="role_name"multiple class="form-control" id="RoleList" >
+                        <label class="mb-2"><strong>Lista obecnych stanowisk</strong></label>
+                        <select name="role_name" multiple class="form-control" id="RoleList" >
                             <?php foreach ($roles as $role): ?>
                                 <option value="<?= $role['role_name'];?>"><?= $role['role_name'];?></option>
                             <?php endforeach;?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-danger" >Usuń</button>
+                    <button type="submit" class="btn btn-danger mt-2 mb-4" >Usuń</button>
                 </form>
 
 
-                <form action="addEventRole" method="POST" ENCTYPE="multipart/form-data">
+                <form class="w-75" action="addEventRole" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
-                        <label for="title">Nazwa stanowiska</label>
+                        <label class="mb-2" for="title"><strong>Nazwa stanowiska</strong></label>
                         <input name="role_name" type="text" class="form-control"">
                     </div>
-                    <button type="submit" class="btn btn-success" >Dodaj</button>
+                    <button type="submit" class="btn btn-success mt-2 mb-4" >Dodaj</button>
+                    <button type="button" class="btn btn-primary mt-2 mb-4" onclick="window.location.href='/adminPanel'">Wróć</button>
 
                 </form>
 

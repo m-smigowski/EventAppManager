@@ -47,6 +47,10 @@ class SecurityController extends AppController
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_status'] = $user->getStatus();
 
+        $ip_address = $this->getIPAddress();
+        $this->userRepository->updateLastLogin($user,$ip_address);
+
+
 
         if (!$user) {
             return $this->render('login', ['messages' => ['Użytkownik nie został znaleziony w bazie danych, sprawdź login i hasło!'],
@@ -100,8 +104,13 @@ class SecurityController extends AppController
 
     public function register(){
 
-        if(!$this->isAdmin()){
-            return $this->logOut();
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+        if (!$this->isAdmin()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         if (!$this->isPost()) {

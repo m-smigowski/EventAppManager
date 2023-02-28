@@ -88,6 +88,22 @@ class UserRepository extends Repository
         ]);
     }
 
+    public function updateLastLogin($user,$ip_address){
+        $user_id_det = $this->getUserDetailsId($user);
+
+        $date = date('Y-m-d H:i:s');
+
+        $stmt = $this->database->connect()->prepare('
+            UPDATE users_details SET last_login = :date, ip_address = :ip_address WHERE id = :id
+        ');
+
+        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $user_id_det, PDO::PARAM_STR);
+        $stmt->bindParam(':ip_address', $ip_address, PDO::PARAM_STR);
+        $stmt->execute();
+
+    }
+
     public function getUserDetailsId(User $user): int
     {
         $stmt = $this->database->connect()->prepare('
@@ -214,6 +230,8 @@ class UserRepository extends Repository
 
 
     }
+
+
 
 
 

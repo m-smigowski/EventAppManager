@@ -1,12 +1,15 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
+
 require 'public/plugins/PHPMailer/src/Exception.php';
 require 'public/plugins/PHPMailer/src/PHPMailer.php';
 require 'public/plugins/PHPMailer/src/SMTP.php';
 
-class AppController {
+class AppController
+{
 
     private $request;
 
@@ -27,10 +30,10 @@ class AppController {
 
     protected function render(string $template = null, array $variables = [])
     {
-        $templatePath = 'public/views/'. $template.'.php';
+        $templatePath = 'public/views/' . $template . '.php';
         $output = 'File not found';
 
-        if(file_exists($templatePath)){
+        if (file_exists($templatePath)) {
             extract($variables);
 
             ob_start();
@@ -41,30 +44,57 @@ class AppController {
     }
 
 
-    public function isLoggedIn(){
+    public function isLoggedIn()
+    {
         if (isset($_SESSION['user_id'])) {
             return true;
         }
     }
 
-    public function isAdmin(){
-        if (($_SESSION['user_status'])===3) {
+    public function isMod()
+    {
+        if (($_SESSION['user_status'] === 2) || ($_SESSION['user_status'] === 3)) {
             return true;
         }
     }
 
-    public function logOut() {
+    public function isAdmin()
+    {
+        if (($_SESSION['user_status']) === 3) {
+            return true;
+        }
+    }
+
+    public function logOut()
+    {
         // Destroy and unset active session
         session_destroy();
         unset($_SESSION['id']);
         return $this->redirect('/login?msg=logout');
     }
 
-    public function redirect($url) {
+    public function redirect($url)
+    {
         header("Location: $url");
     }
 
-    public function sendEmail(string $email,string $subject,string $body)
+
+    function getIPAddress()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+
+
+    public function sendEmail(string $email, string $subject, string $body)
     {
         try {
             $mail = new PHPMailer();
@@ -97,11 +127,6 @@ class AppController {
 
         }
     }
-
-
-
-
-
 
 
 }

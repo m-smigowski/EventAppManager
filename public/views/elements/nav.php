@@ -1,53 +1,77 @@
 <?php
-echo '<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
+echo '
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="d-flex flex-column flex-shrink-0 p-2 text-bg-dark">
+                <ul class="nav nav-pills flex-column d-flex">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/main">
-                            <span data-feather="main" class="align-text-bottom"></span>
-                            Strona główna
+                        <a href="/main" class="nav-link text-white" aria-current="page">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#home"/>
+                            </svg>
+                            Strona Główna
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="/events">
-                            <span data-feather="events" class="align-text-bottom"></span>
+                    <li>
+                        <a href="/events" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#table"/>
+                            </svg>
                             Wydarzenia
                         </a>
-                        
-                        <a class="nav-link hidden-link" href="/pastEvents">
-                            <span data-feather="pastEvents" class="align-text-bottom"></span>
-                            - Archiwalne
-                        </a>
-                       
                     </li>
-                    
-                    <!---------------<li class="nav-item">
-                        <a class="nav-link" href="/meetings">
-                            <span data-feather="meetings" class="align-text-bottom"></span>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#table"/>
+                            </svg>
                             Spotkania
                         </a>
-                    </li>>-------------->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/depot">
-                            <span data-feather="warehouse" class="align-text-bottom"></span>
+                    </li>
+                    <li>
+                        <a href="/depot" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#grid"/>
+                            </svg>
                             Magazyn
                         </a>
                     </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="/usersPanel">
-                            <span data-feather="users" class="align-text-bottom"></span>
+
+                    <li>
+                        <a href="/usersPanel" class="nav-link text-white">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#people-circle"/>
+                            </svg>
                             Panel Użytkownika
                         </a>
                     </li>
-                ';
-                if($_SESSION['user_status'] === 3){
-                    echo '<li class="nav-item">
-                        <a class="nav-link" href="/adminPanel">
-                            <span data-feather="users" class="align-text-bottom"></span>
+
+                    <li>
+                        <a href="/adminPanel" class="nav-link text-white mt-auto">
+                            <svg class="bi pe-none me-2" width="16" height="16">
+                                <use xlink:href="#people-circle"/>
+                            </svg>
                             Panel Administratora
                         </a>
-                    </li> </div></nav></ul>';
-                }else{
-                    echo '</li> </div></nav></ul>';
-                }
+                    </li>
+                </ul>
+                <hr>
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong>mdo</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <li><a class="dropdown-item" href="#">Ustawienia</a></li>
+                        <li><a class="dropdown-item" href="#">Profil</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logOut">Wyloguj się</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+';

@@ -55,7 +55,7 @@ class EventController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        if (!$this->isAdmin()) {
+        if (!$this->isMod()) {
 
             return $this->render('events', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
@@ -74,8 +74,7 @@ class EventController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        if (!$this->isAdmin()) {
-
+        if (!$this->isMod()) {
             return $this->render('events', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
@@ -105,7 +104,7 @@ class EventController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        if (!$this->isAdmin()) {
+        if (!$this->isMod()) {
             return $this->render('events', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
@@ -149,16 +148,19 @@ class EventController extends AppController
                 $usersInEvent['role_name']= null,
             );
         }
-
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
-
 
         $this->render('event-view-details', ['event' => $event, 'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
     }
 
     public function eventEditSchedules()
     {
-        if (!$this->isAdmin()) {
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        if (!$this->isMod()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
@@ -189,8 +191,12 @@ class EventController extends AppController
 
     public function eventEditWorkers()
     {
-        if (!$this->isAdmin()) {
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
 
+        if (!$this->isMod()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }

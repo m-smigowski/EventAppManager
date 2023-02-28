@@ -50,7 +50,6 @@
                                 <label class="form-label">Telefon</label>
                             </div>
 
-                            <!-- Submit button -->
                             <div class="d-grid gap-1">
                                 <button type="submit" class="btn btn-primary btn-block mb-4">
                                     Zarejestruj się!
