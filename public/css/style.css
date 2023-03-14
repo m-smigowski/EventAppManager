@@ -75,6 +75,18 @@ button a:hover {
 }
 
 
+/*NAVBAR*/
+.sidebar li .submenu{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.submenu > li >.nav-link:not(.active){
+    color: #e7e7e7;
+}
+
 @media (max-width:768px) {
     #header-logo{
         width: 100% !important;
@@ -86,7 +98,6 @@ button a:hover {
         width: 75%  !important;
         margin-top:20px;
     }
-
 }
 
 /*EVENTS DETAILS*/

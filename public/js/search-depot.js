@@ -1,6 +1,6 @@
 const search = document.querySelector("#search-depot-input");
 const depotContainer = document.querySelector(".items");
-const titleH2 = document.querySelector("h1.h2");
+const titleH2 = document.querySelector("h1.h3");
 
 
 search.addEventListener("keyup", function (item) {
@@ -53,7 +53,7 @@ function createItem(item) {
     itemQuantity.innerHTML = item.quantity;
 
     const button = clone.querySelector(".btn-edit");
-    button.innerHTML = `<a href="editDepotItem?item_id=${item.id}&barcode=${item.barcode}">Edytuj</a>`;
+    button.innerHTML = `<a href="editDepotItem?item_id=${item.id}&barcode=${item.barcode}"><button type="button" class="btn-edit btn btn-primary btn-sm">Edytuj</button></a>`;
 
     titleH2.innerHTML = "Wyszukane przedmioty w magazynie";
     depotContainer.appendChild(clone);

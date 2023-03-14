@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <title>Edycja stanowisk pracy</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link href="public/css/style.css" rel="stylesheet">
+    <?php include 'public/views/elements/css.php'; ?>
 </head>
 <body>
 
-<?php include 'public/views/elements/header.php';?>
+<?php include 'public/views/elements/header.php'; ?>
 <div class="container-fluid">
     <div class="row">
-        <?php include 'public/views/elements/nav.php'?>
+        <?php include 'public/views/elements/nav.php' ?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h3">Edycja stanowisk pracy</h1>
@@ -30,13 +28,13 @@
                 <form class="w-75" action="dropEventRole" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
                         <label class="mb-2"><strong>Lista obecnych stanowisk</strong></label>
-                        <select name="role_name" multiple class="form-control" id="RoleList" >
+                        <select name="role_name" multiple class="form-control" id="RoleList">
                             <?php foreach ($roles as $role): ?>
-                                <option value="<?= $role['role_name'];?>"><?= $role['role_name'];?></option>
-                            <?php endforeach;?>
+                                <option value="<?= $role['role_name']; ?>"><?= $role['role_name']; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-danger mt-2 mb-4" >Usuń</button>
+                    <button type="submit" class="btn btn-danger mt-2 mb-4">Usuń</button>
                 </form>
 
 
@@ -45,19 +43,19 @@
                         <label class="mb-2" for="title"><strong>Nazwa stanowiska</strong></label>
                         <input name="role_name" type="text" class="form-control"">
                     </div>
-                    <button type="submit" class="btn btn-success mt-2 mb-4" >Dodaj</button>
-                    <button type="button" class="btn btn-primary mt-2 mb-4" onclick="window.location.href='/adminPanel'">Wróć</button>
+                    <button type="submit" class="btn btn-success mt-2 mb-4">Dodaj</button>
+                    <button type="button" class="btn btn-primary mt-2 mb-4"
+                            onclick="window.location.href='/adminPanel'">Wróć
+                    </button>
 
                 </form>
 
             </section>
         </main>
-
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script>$('.nav-item [href="/adminPanel"]').addClass("active");</script>
+</div>
+<?php include 'public/views/elements/scripts.php' ?>
+<script>$('.nav-item [href="/adminPanel"]').addClass("active");</script>
 
 </body>
 </html>

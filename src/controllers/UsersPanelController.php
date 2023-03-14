@@ -22,7 +22,7 @@ class UsersPanelController extends AppController
 
     public function userEdit()
     {
-        $email = $_SESSION['user_name'];
+        $email = $_SESSION['user_email'];
         $user = $this->userRepository->getUser($email);
 
         $this->render('user-edit', ['user' => $user]);

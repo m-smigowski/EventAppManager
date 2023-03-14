@@ -484,6 +484,20 @@ class EventRepository extends Repository
         return $result;
     }
 
+    public function isPastEvent($id)
+    {
+        $result = [];
+        $stmt = $this->database->connect()->prepare('
+        SELECT event_end FROM events WHERE id=:id
+
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetchColumn();
+
+        return $result;
+    }
+
 
 
 

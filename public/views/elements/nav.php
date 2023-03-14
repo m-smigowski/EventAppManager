@@ -1,4 +1,7 @@
 <?php
+
+
+
 echo '
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="d-flex flex-column flex-shrink-0 p-2 text-bg-dark">
@@ -11,13 +14,19 @@ echo '
                             Strona Główna
                         </a>
                     </li>
-                    <li>
-                        <a href="/events" class="nav-link text-white">
+                    <li class="nav-item has-submenu">
+                        <a href="#" class="nav-link text-white">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#table"/>
                             </svg>
                             Wydarzenia
                         </a>
+                        <ul class="submenu collapse">
+                            <li><a class="nav-link" href="/events">Najbliższe</a></li>
+                            <li><a class="nav-link" href="/pastEvents">Archiwalne </a></li>
+                            <li><a class="nav-link" href="/calendar">Kalendarz</a> </li>
+                        </ul>
+                       
                     </li>
                     <li>
                         <a href="#" class="nav-link text-white">
@@ -59,7 +68,7 @@ echo '
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong>mdo</strong>
+                        <strong>'.$_SESSION['user_name'].' '.$_SESSION['user_surname'].'</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><a class="dropdown-item" href="#">Ustawienia</a></li>

@@ -72,11 +72,7 @@ echo '
         <h4>EVENT APP MANAGER</h4>
     </a>
 
-    <form id="header-search" class="col-lg-auto mb-3 mb-lg-0 me-auto w-25" role="search">
-        <input type="search" id="search-input" class="form-control form-control-dark text-bg-dark" placeholder="Szukaj....."
-               aria-label="Search">
-    </form>
-
+    '.$search.'
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
     data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" a
     ria-expanded="false" aria-label="Toggle navigation">

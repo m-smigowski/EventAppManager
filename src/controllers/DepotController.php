@@ -141,6 +141,14 @@ class DepotController extends AppController
         return true;
     }
 
+    public function isEventPast($event_id){ //sprawdzanie czy dany event jest archiwalny
+        $current_date = date("Y-m-d i-s");
+        $is_past = $this->eventRepository->isPastEvent($event_id);
+        if($current_date>$is_past){
+            return true;
+        }
+        return false;
+    }
 
     public function eventEditEquipment()
     {
@@ -160,9 +168,10 @@ class DepotController extends AppController
         }
 
         $event_id = $_GET['event_id'];
+        $past = $this->isEventPast($event_id);
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
         $items = $this->depotRepository->getItems();
-        return $this->render('event-edit-equipment', ['items' => $items, 'rented_items' => $rented_items]);
+        return $this->render('event-edit-equipment', ['items' => $items, 'rented_items' => $rented_items,'past'=>$past]);
 
     }
 
@@ -181,7 +190,7 @@ class DepotController extends AppController
         $user_id = $_SESSION['user_id'];
         $items = $this->depotRepository->getItems();
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
-
+        $past = $this->isEventPast($event_id);
         if ($this->isPost()) {
             if (!empty($_POST['id_name_barcode_item']) && !empty($_POST['quantity_to_rent']) && !empty($_POST['comments'])) {
                 $item_det = explode(" ", $_POST['id_name_barcode_item']);
@@ -195,12 +204,12 @@ class DepotController extends AppController
                 if ($quantity_to_rent > $current_quantity_ability_for_rent) {
                     return $this->render('event-edit-equipment', ['messages' => ["Brak wystarczającej ilości tego sprzętu w terminie wydarzenia.
                     Maksymalna dostępność sprzętu w tym terminie to <strong>" . $current_quantity_ability_for_rent . "</strong>."], 'items' => $items, 'rented_items' => $rented_items,
-                        'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+                        'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()",'past'=>$past]);
                 }
                 $this->depotRepository->AddItemToRent($event_id, $user_id, $item_id, $quantity_to_rent, $comments);
                 return $this->redirect('/eventEditEquipment?event_id=' . $event_id . ' ');
             } else {
-                return $this->render('event-edit-equipment', ['messages' => ["Wypełnij lub wybierz wszystkie dane"], 'items' => $items, 'rented_items' => $rented_items,
+                return $this->render('event-edit-equipment', ['messages' => ["Wypełnij lub wybierz wszystkie dane"], 'items' => $items,'past'=>$past, 'rented_items' => $rented_items,
                     'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
             }
         }

@@ -43,14 +43,14 @@ class SecurityController extends AppController
         $user = $this->userRepository->getUser($email);
         $user_id = $this->userRepository->getUserId($email);
 
-        $_SESSION['user_name'] = $email;
+        $_SESSION['user_name'] = $user->getName();
+        $_SESSION['user_surname'] = $user->getSurname();
+        $_SESSION['user_email'] = $user->getEmail();
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_status'] = $user->getStatus();
 
         $ip_address = $this->getIPAddress();
         $this->userRepository->updateLastLogin($user,$ip_address);
-
-
 
         if (!$user) {
             return $this->render('login', ['messages' => ['Użytkownik nie został znaleziony w bazie danych, sprawdź login i hasło!'],
@@ -58,13 +58,11 @@ class SecurityController extends AppController
             ]);
         }
 
-
         if ($user->getEmail() !== $email) {
             return $this->render('login', ['messages' => ['Błędny adres email!'],
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
             ]);
         }
-
         if ($user->getPassword() !== $password) {
             return $this->render('login', ['messages' => ['Błędne hasło!'],
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
@@ -76,7 +74,6 @@ class SecurityController extends AppController
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
             ]);
         }
-
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/main");
@@ -95,7 +92,6 @@ class SecurityController extends AppController
             Witaj,
             w celu aktywacji swojego konta, klikjnij w poniższy link '.
             $activation_link;
-
         // send the email
         $this->sendEmail($email, $subject, $body);
 
@@ -139,7 +135,7 @@ class SecurityController extends AppController
         $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
         $this->userRepository->addUser($user,$activation_code);
 
-        return $this->render('login', ['messages' => ['Sprawdź e-mail w celu potwierdzenia rejestracji'],
+        return $this->render('admin-panel', ['messages' => ['Rejestracja przebiegła pomyślnie'],
            'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
 
     }

@@ -1,6 +1,6 @@
 const search = document.querySelector("#search-input");
 const eventContainer = document.querySelector(".events");
-const titleH2 = document.querySelector("h1.h2");
+const titleH2 = document.querySelector("h1.h3");
 
 
 search.addEventListener("keyup", function (event) {

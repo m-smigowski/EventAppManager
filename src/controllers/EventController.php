@@ -28,11 +28,12 @@ class EventController extends AppController
         if (!$this->isLoggedIn()) {
             return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
         }
-
         $date = date('Y-m-d');
         $events = $this->eventRepository->getUpcomingEvents($date);
         $this->render('events', ['events' => $events,'title'=>"Nadchodzące wydarzenia"]);
     }
+
+
 
     public function pastEvents()
     {
@@ -42,8 +43,8 @@ class EventController extends AppController
 
         $date = date('Y-m-d');
         $events = $this->eventRepository->getPastEvents($date);
-        $past_info = "$('.nav-item [href='/pastEvents']').addClass('active');";
-        $this->render('events', ['events' => $events,'title'=>"Archiwalne wydarzenia"]);
+
+        $this->render('events', ['events' => $events,'past_info'=>$past_info,'title'=>"Archiwalne wydarzenia"]);
     }
 
 
@@ -61,10 +62,10 @@ class EventController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-
+        $past = $this->isEventPast($event_id);
         $event_id = $_GET['event_id'];
         $event = $this->eventRepository->getEvent($event_id);
-        $this->render('event-edit', ['event' => $event]);
+        $this->render('event-edit', ['event' => $event,'past'=>$past]);
     }
 
     public function updateEvent()
@@ -86,7 +87,7 @@ class EventController extends AppController
                 $this->eventRepository->updateEvent($event);
                 $this->eventRepository->addLog($_SESSION['user_id'],"Zaktualizował szczegóły wydarzenia ".
                 "<a href='/eventViewDetails?event_id=".$_POST['event_id']."'>".$_POST['title'])."</a>";
-                return $this->redirect('/eventViewDetails?event_id=' . $_POST['event_id']);
+                return $this->redirect('/eventViewDetails?event_id='.$_POST['event_id']);
             } elseif (isset($_POST['drop'])) { // usuwanie wydarzenia
                 $event_id = $_POST['event_id'];
                 $this->eventRepository->removeEvent($event_id);
@@ -122,6 +123,15 @@ class EventController extends AppController
         $this->render('add-event');
     }
 
+    public function isEventPast($event_id){ //sprawdzanie czy dany event jest archiwalny
+        $current_date = date("Y-m-d i-s");
+        $is_past = $this->eventRepository->isPastEvent($event_id);
+        if($current_date>$is_past){
+            return true;
+        }
+        return false;
+    }
+
     public function eventViewDetails()
     {
         if (!$this->isLoggedIn()) {
@@ -136,9 +146,8 @@ class EventController extends AppController
 
         $event_schedules = $this->eventRepository->getEventSchedules($event_id);
 
-        if($event==null){
-            return $this->redirect('/events');
-        }
+        $past = $this->isEventPast($event_id);
+
         $event_users = $this->eventRepository->getUsersInEvent($event_id);
 
         if ($event_users === null) {
@@ -150,7 +159,7 @@ class EventController extends AppController
         }
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
 
-        $this->render('event-view-details', ['event' => $event, 'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
+        $this->render('event-view-details', ['event' => $event,'past'=>$past,'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
     }
 
     public function eventEditSchedules()
@@ -167,11 +176,11 @@ class EventController extends AppController
 
         $event = $this->eventRepository->getEvent($_GET['event_id']);
         $event_schedules = $this->eventRepository->getEventSchedules($_GET['event_id']);
+        $past = $this->isEventPast($_GET['event_id']);
 
         if($this->isPost()){
             if(!empty($_POST['start_date'])&&!empty($_POST['end_date'])
                 &&!empty($_POST['title'])&&!empty($_POST['description'])&&!empty($_POST['event_id'])){
-
                 $this->eventRepository->addEventSchedule($_POST['event_id'],$_POST['title'],$_POST['description'],$_POST['start_date'],$_POST['end_date']);
                 $event_schedules = $this->eventRepository->getEventSchedules($_GET['event_id']);
                 }
@@ -184,8 +193,7 @@ class EventController extends AppController
             }
         }
 
-
-        return $this->render('event-edit-schedules',['event_schedules'=>$event_schedules,'event'=>$event]);
+        return $this->render('event-edit-schedules',['event_schedules'=>$event_schedules,'event'=>$event,'past'=>$past]);
 
     }
 
@@ -203,6 +211,7 @@ class EventController extends AppController
 
         $event_id = $_GET['event_id'];
         $admin_id = $_SESSION['user_id'];
+        $past = $this->isEventPast($event_id);
 
         $admin = $this->userRepository->getUserById($admin_id);
         $url = "http://$_SERVER[HTTP_HOST]";
@@ -227,7 +236,6 @@ class EventController extends AppController
                 " do wydarzenia <a href='/eventViewDetails?event_id=".$event_id."'>".$event->getTitle()."</a>");
         }
 
-
         if(!empty($_GET['event_id']) && !empty($_GET['name']) &&
             !empty($_GET['surname']) && !empty($_GET['role_name'])){
             $this->eventRepository->dropUserEvent($_GET['event_id'],$_GET['name'],$_GET['surname'],$_GET['role_name']);
@@ -250,7 +258,7 @@ class EventController extends AppController
         }
 
         $this->render('event-edit-workers', ['usersInEvent' => $event_users, 'users' => $all_users,
-            'roles'=> $all_roles,'event_id'=>$event_id]);
+            'roles'=> $all_roles,'event_id'=>$event_id,'past'=>$past]);
     }
 
 
