@@ -53,9 +53,7 @@
                             onclick="window.location.href='/eventViewDetails?event_id=<?php echo $_GET['event_id']; ?>'">
                         Wróć
                     </button>
-
                 </form>
-
 
                 <div class="rented_items">
                     <h1 class="h5">Lista przedmiotów wynajętych dla wydarzenia:</h1>
@@ -72,9 +70,7 @@
                             </tr>
                             <?php
                             foreach ($rented_items
-
                             as $rented_item): ?>
-
                             <tr>
                                 <td><?= $rented_item['id'] ?></td>
                                 <td><img width="100px" height="100px"
@@ -84,9 +80,9 @@
                                 <td><?= $rented_item['quantity'] ?></td>
                                 <td><?= $rented_item['comments'] ?></td>
                                 <td>
-                                    <button type="button" class="btn-edit btn btn-primary btn-sm">
-                                        <a href="eventEditEquipment?event_id=<?= $_GET['event_id'] ?>&rental_id=<?= $rented_item['rental_id'] ?>">Usuń</a>
-                                    </button>
+                                    <a href="eventEditEquipment?event_id=<?= $_GET['event_id'] ?>&rental_id=<?= $rented_item['rental_id'] ?>">
+                                    <button type="button" class="btn-edit btn btn-primary btn-sm">Usuń</button>
+                                    </a>
                                 </td>
                                 <?php endforeach; ?>
                             </tr>
@@ -99,7 +95,6 @@
         </main>
     </div>
 </div>
-
 
 <?php include 'public/views/elements/scripts.php' ?>
 <script>

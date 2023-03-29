@@ -261,6 +261,10 @@ class EventController extends AppController
             'roles'=> $all_roles,'event_id'=>$event_id,'past'=>$past]);
     }
 
+    public function calendar(){
+        $this->render('calendar');
+    }
+
 
 
 

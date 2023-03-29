@@ -65,11 +65,8 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
                                 <th class="col">Do</th>
                                 <th class="col">Nazwa</th>
                                 <th class="col">Opis</th>
-
                             </tr>
-
                             <?php foreach ($event_schedules
-
                             as $event_schedule): ?>
                             <tr>
                                 <td><?= $event_schedule['start_date'] ?></td>

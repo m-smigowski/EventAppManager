@@ -31,6 +31,8 @@ Router::get('eventEditWorkers', 'EventController');
 Router::get('dropWorkerFromEvent', 'EventController');
 Router::get('updateEvent', 'EventController');
 
+Router::get('calendar', 'EventController');
+
 Router::post('searchDepot', 'DepotController');
 Router::get('eventEditSchedules', 'EventController');
 Router::get('eventEditEquipment', 'DepotController');
