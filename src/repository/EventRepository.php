@@ -74,6 +74,24 @@ class EventRepository extends Repository
 
     }
 
+    public function getEventByDate(string $searchDate): array
+    {
+        //$searchString = '%'.strtolower($searchString).'%';
+        $result = [];
+        $searchToDate = $searchDate.' 23:59:59.998';
+        $stmt = $this->database->connect()->prepare("
+        SELECT id,title,description,status,event_start as eventStart,event_end as eventEnd FROM events WHERE event_start BETWEEN :search AND :search_to
+        ");
+
+        $stmt->bindParam(':search', $searchDate, PDO::PARAM_INT);
+        $stmt->bindParam(':search_to', $searchToDate, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $events =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+
 
     public function getLastEventId():int{
         $stmt = $this->database->connect()->prepare('
@@ -484,6 +502,9 @@ class EventRepository extends Repository
         return $result;
     }
 
+
+
+
     public function isPastEvent($id)
     {
         $result = [];
@@ -497,6 +518,8 @@ class EventRepository extends Repository
 
         return $result;
     }
+
+
 
 
 

@@ -30,8 +30,8 @@ function loadEvents(events) {
         createEvent(event);
     });
 }
-function createEvent(event) {
 
+function createEvent(event) {
 
     const template = document.querySelector("#event-template");
 

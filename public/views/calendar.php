@@ -24,25 +24,46 @@
                 </div>
             </div>
             <section name="calendar">
-                <div class="wrapper">
-                    <header>
-                        <p class="current-date"></p>
-                        <div class="icons">
-                            <span id="prev" class="material-symbols-rounded">chevron_left</span>
-                            <span id="next" class="material-symbols-rounded">chevron_right</span>
+                <div class="row">
+                    <div class="col-5 wrapper">
+                        <header>
+                            <p class="current-date"></p>
+                            <div class="icons">
+                                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                                <span id="next" class="material-symbols-rounded">chevron_right</span>
+                            </div>
+                        </header>
+                        <div class="calendar">
+                            <ul class="weeks">
+                                <li>Niedz</li>
+                                <li>Pon</li>
+                                <li>Wt</li>
+                                <li>Śr</li>
+                                <li>Czw</li>
+                                <li>PT</li>
+                                <li>Sob</li>
+                            </ul>
+                            <ul class="days"></ul>
                         </div>
-                    </header>
-                    <div class="calendar">
-                        <ul class="weeks">
-                            <li>Niedz</li>
-                            <li>Pon</li>
-                            <li>Wt</li>
-                            <li>Śr</li>
-                            <li>Czw</li>
-                            <li>PT</li>
-                            <li>Sob</li>
-                        </ul>
-                        <ul class="days"></ul>
+                    </div>
+
+                    <div class="col eventsList">
+                        <div class="table-responsive">
+                            <table class="table table-hover table align-middle">
+                                <thead class="table-secondary table align-middle">
+                                <tr>
+                                    <th scope="col">Tytuł</th>
+                                    <th scope="col">Opis</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Data rozpoczęcia</th>
+                                    <th scope="col">Data zakończenia</th>
+                                    <th scope="col">Akcja</th>
+                                </tr>
+                                </thead>
+                                <tbody class="events">
+                                </tbody>
+                            </table>
+
                     </div>
                 </div>
             </section>
@@ -56,16 +77,12 @@
 
 <template id="event-template">
     <tr>
-        <td class="event-id"></td>
         <td class="event-title"></td>
         <td class="event-desc"></td>
         <td class="event-status"></td>
-        <td class="event-type"></td>
         <td class="event-start"></td>
         <td class="event-end"></td>
-        <td>
-            <button type="button" class="btn-edit btn btn-primary btn-sm"></button>
-        </td>
+        <td class="btn-place"></td>
     </tr>
 </template>
 </html>

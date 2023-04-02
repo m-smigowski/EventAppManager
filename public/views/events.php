@@ -36,8 +36,7 @@
                             <th scope="col">Tytuł</th>
                             <th scope="col">Opis</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Typ
-                            </td>
+                            <th scope="col">Typ</th>
                             <th scope="col">Data rozpoczęcia</th>
                             <th scope="col">Data zakończenia</th>
                             <th scope="col">Akcja</th>

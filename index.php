@@ -52,5 +52,6 @@ Router::post('register', 'SecurityController');
 Router::post('addEvent', 'EventController');
 Router::post('addEventAction', 'EventController');
 Router::post('search', 'EventController');
+Router::post('calendarSearch', 'EventController');
 
 Router::run($path);

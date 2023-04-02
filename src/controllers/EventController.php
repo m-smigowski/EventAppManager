@@ -265,6 +265,22 @@ class EventController extends AppController
         $this->render('calendar');
     }
 
+    public function calendarSearch(){
+        $contentType = isset($_SERVER["CONTENT_TYPE"])? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if($contentType == "application/json"){
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content,true);
+
+            header('Content-type:application/json');
+            http_response_code(200);
+
+            $input = $decoded['search'];
+            $date = strtotime($input);
+
+            echo json_encode($this->eventRepository->getEventByDate(date('Y-m-d', $date)));
+        }
+    }
 
 
 
