@@ -49,8 +49,9 @@
 
                     <div class="col eventsList">
                         <div class="table-responsive">
+                            <h1 class="h4 event-date"></h1>
                             <table class="table table-hover table align-middle">
-                                <thead class="table-secondary table align-middle">
+                                <thead class="table-header table-secondary table align-middle">
                                 <tr>
                                     <th scope="col">Tytuł</th>
                                     <th scope="col">Opis</th>

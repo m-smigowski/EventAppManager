@@ -7,6 +7,10 @@ class UsersPanelController extends AppController
 {
     private $userRepository;
 
+    const UPLOAD_DIRECTORY = '/../public/img/app-image/';
+    const MAX_FILE_SIZE = 2024 * 2024;
+    const SUPPORTED_TYPES = ['image/png', 'image/jpeg'];
+
 
     public function __construct()
     {
@@ -16,23 +20,51 @@ class UsersPanelController extends AppController
 
     public function usersPanel()
     {
-        return $this->render('users-panel');
-    }
-
-
-    public function userEdit()
-    {
         $email = $_SESSION['user_email'];
         $user = $this->userRepository->getUser($email);
 
-        $this->render('user-edit', ['user' => $user]);
+        $this->render('users-panel', ['user' => $user]);
     }
+
 
     public function userEditPass()
     {
         $this->render('user-edit-pass',);
     }
 
+
+    public function  userUpdatePhoto(){
+        if($this->isPost()){
+            $profile_photo_src = $_POST['profile_image'];
+            $user_id = $_SESSION['user_id'];
+
+            if (is_uploaded_file($_FILES['image']['tmp_name']) && $this->validate($_FILES['image'])) {
+                move_uploaded_file(
+                    $_FILES['image']['tmp_name'],
+                    dirname(__DIR__) . self::UPLOAD_DIRECTORY . $_FILES['image']['name']
+                );
+            }
+            //$this->userRepository->userUpdatePhoto($profile_photo_src,$user_id);
+
+
+        }
+
+    }
+
+    private function validate($file): bool
+    {
+        if ($file['size'] > self::MAX_FILE_SIZE) {
+            $this->messages[] = 'Plik jest za duży, zmiejsz jego rozmiar';
+            return false;
+        }
+
+        if (!isset($file['type']) && !in_array($file['type'], self::SUPPORTED_TYPES)) {
+            $this->messages[] = 'Typ pliku nie jest wspierany.';
+            return false;
+        }
+
+        return true;
+    }
 
     public function userUpdate()
     {
@@ -50,6 +82,10 @@ class UsersPanelController extends AppController
             }
         }
     }
+
+
+
+
 
 
     public function userUpdatePass()

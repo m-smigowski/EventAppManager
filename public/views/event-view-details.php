@@ -31,7 +31,7 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
         <?php include 'public/views/elements/nav.php' ?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h4">Szczegóły wydarzenia <?= $event->getTitle() ?></h1>
+                <h1 class="h4"><?= $event->getTitle() ?></h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="addEvent">
                         <button type="button" class="btn btn-primary me-2">Dodaj</button>
@@ -41,8 +41,9 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
             </div>
 
             <section class="events-container">
-                <div class="row event-details-info mb-3">
+                <div class="row event-details-info mb-3 box">
                     <div class="col event-details-left-side">
+                        <h1 class="h6">Szczegóły wydarzenia:</h1>
                         <p>Nazwa wydarzenia: <strong> <?= $event->getTitle() ?></strong></p>
                         <p>Opis: <strong><?= $event->getDescription() ?></strong></p>
                         <p>Status: <strong><?= $event->getStatus() ?></strong></p>
@@ -56,10 +57,10 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
                         <?php echo $edit_event_details_button; ?>
                     </div>
 
-                    <div class="col event-details-right-side">
+                    <div class="col event-details-right-side ">
                         <p>Miejsce wydarzenia: <strong><?= $event->getLocation() ?> </strong></p>
                         <p>Harmonogram pracy:</p>
-                        <table class="table table-striped table-sm">
+                        <table class="table table-striped table-sm box">
                             <tr>
                                 <th class="col">Od</th>
                                 <th class="col">Do</th>
@@ -81,9 +82,9 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
 
                 </div>
                 <div class="row">
-                    <div class="col participants mb-3 me-2">
+                    <div class="col participants mb-3 me-2 box">
                         <h1 class="h4">Pracownicy: </h1>
-                        <table class="table table-striped table-sm">
+                        <table class="table table-striped table-sm box">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Imie</th>
@@ -118,13 +119,13 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
                             ?>
                     </div>
 
-                    <div class="col user-task mb-3">
+                    <div class="col user-task mb-3 box">
                         Twoje zdania:
                     </div>
                 </div>
-                <div class="row equipment">
+                <div class="row equipment box">
                     <h1 class="h4">Lista sprzętu:</h1>
-                    <table class="table table-sm table-striped">
+                    <table class="table table-sm table-striped box">
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Zdjęcie</th>

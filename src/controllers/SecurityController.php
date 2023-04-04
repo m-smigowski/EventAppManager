@@ -49,6 +49,8 @@ class SecurityController extends AppController
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_status'] = $user->getStatus();
 
+        $_SESSION['user_profile_photo'] = $this->userRepository->getUserProfileImagePath($user);
+
         $ip_address = $this->getIPAddress();
         $this->userRepository->updateLastLogin($user,$ip_address);
 

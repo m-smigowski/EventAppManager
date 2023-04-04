@@ -118,6 +118,21 @@ class UserRepository extends Repository
         return $data['id'];
     }
 
+    public function getUserProfileImagePath(User $user)
+    {
+        $uid = $this->getUserDetailsId($user);
+
+        $stmt = $this->database->connect()->prepare('
+            SELECT profile_photo FROM users_details WHERE id = :uid
+        ');
+
+        $stmt->bindParam(':uid', $uid, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data['profile_photo'];
+    }
+
     public function getUserDetailsIdById(int $id)
     {
         $stmt = $this->database->connect()->prepare('
@@ -145,6 +160,8 @@ class UserRepository extends Repository
     }
 
 
+
+
     public function updateUser(User $user,int $id)
     {
         $stmt = $this->database->connect()->prepare('
@@ -168,6 +185,31 @@ class UserRepository extends Repository
             $this->getUserDetailsId($user)
         ]);
     }
+
+    public function updateUserPhoto(User $user,int $id)
+    {
+        $stmt = $this->database->connect()->prepare('
+            UPDATE users_details SET name=?, surname=?, phone=? WHERE id=?
+        ');
+
+        $stmt->execute([
+            $user->getName(),
+            $user->getSurname(),
+            $user->getPhone(),
+            $id
+        ]);
+
+        $stmt = $this->database->connect()->prepare('
+            UPDATE users SET email=?, password=? WHERE id_user_details=?
+        ');
+
+        $stmt->execute([
+            $user->getEmail(),
+            $user->getPassword(),
+            $this->getUserDetailsId($user)
+        ]);
+    }
+
 
     public function changePassword(string $new_pass,int $id)
     {

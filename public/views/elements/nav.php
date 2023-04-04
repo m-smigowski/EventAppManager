@@ -28,7 +28,7 @@ echo '
                         </ul>
                        
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link text-white">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#table"/>
@@ -36,7 +36,7 @@ echo '
                             Spotkania
                         </a>
                     </li>
-                    <li>
+                    <li class="nav-item">
                         <a href="/depot" class="nav-link text-white">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#grid"/>
@@ -45,7 +45,7 @@ echo '
                         </a>
                     </li>
 
-                    <li>
+                    <li class="nav-item">
                         <a href="/usersPanel" class="nav-link text-white">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#people-circle"/>
@@ -54,7 +54,7 @@ echo '
                         </a>
                     </li>
 
-                    <li>
+                    <li class="nav-item">
                         <a href="/adminPanel" class="nav-link text-white mt-auto">
                             <svg class="bi pe-none me-2" width="16" height="16">
                                 <use xlink:href="#people-circle"/>
@@ -67,7 +67,7 @@ echo '
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle "
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img src="public/img/app-image/'.$_SESSION['user_profile_photo'].'" alt="" width="32" height="32" class="rounded-circle me-2">
                         <strong>'.$_SESSION['user_name'].' '.$_SESSION['user_surname'].'</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">

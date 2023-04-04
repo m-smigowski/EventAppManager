@@ -42,7 +42,7 @@ const renderCalendar = () => {
     currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
     daysTag.innerHTML = liTag;
 
-    // autoload cuurentday event
+    // autoload cuurent day event
     window.onload=function(){
         $('.active').click();
     };
@@ -60,19 +60,25 @@ const renderCalendar = () => {
                 },
                 body: JSON.stringify(data)
             }).then(function (response) {
-                console.log(response);
                 return response.json();
             }).then(function (events) {
-                if(events.length == 0){
-                    eventsListContainer.innerHTML = "<h4>Brak wydarzeń w tym dniu</h4>";
+                if(events.length > 0){
+                    loadEvents(events);
+                    $('.event-date').html(day+' '+(months[currMonth])+' '+currYear);
+                }else{
+                    eventsContainer.innerHTML = "<h4>Brak wydarzeń w tym dniu</h4>";
+                    $('.event-date').html(day+' '+(months[currMonth])+' '+currYear);
+                    $('thead').css("display","none");
                 }
-                loadEvents(events);
+
             });
     });
     function loadEvents(events) {
         events.forEach(event => {
             console.log(event);
             eventsContainer.innerHTML = "";
+            $('.table-header').css("display","table-header-group");
+            $('.h4').css("display","inline-block");
             createEvent(event);
         });
     }

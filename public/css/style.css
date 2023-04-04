@@ -102,23 +102,27 @@ button a:hover {
 
 /*EVENTS DETAILS*/
 
+table td,th{
+    text-align: center;
+}
+
 main{
     overflow:auto;
     height: calc(100vh - 63px);
 }
-.event-details-info,.participants,.equipment,.user-task{
-    border-radius: 25px;
+.box{
+    border-radius: 10px;
     border: 1px solid #dee2e6;
     background-color: #fff;
     padding: 1rem;
-    -webkit-box-shadow: 0px -0px 9px 0px rgba(238, 238, 238, 1);
-    -moz-box-shadow: 0px -0px 9px 0px rgba(238, 238, 238, 1);
-    box-shadow: 0px -0px 9px 0px rgba(238, 238, 238, 1);
+    /*box-shadow: 0px -0px 9px 0px rgba(238, 238, 238, 1);*/
 }
-
 
 /*ADMIN PANEL USER EDIT*/
 
 .btn-drop{
     margin-left: auto!important;
 }
+
+
+

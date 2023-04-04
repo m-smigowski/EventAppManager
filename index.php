@@ -21,6 +21,7 @@ Router::post('resetPasswordRequest', 'PasswordResetController');
 Router::post('userEdit', 'UsersPanelController');
 Router::get('userEditPass', 'UsersPanelController');
 Router::post('userUpdate', 'UsersPanelController');
+Router::post('userUpdatePhoto', 'UsersPanelController');
 Router::post('userUpdatePass', 'UsersPanelController');
 
 Router::get('events', 'EventController');
