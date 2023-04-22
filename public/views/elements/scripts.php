@@ -15,4 +15,5 @@ echo '
     <script type="text/javascript" src="./public/js/style.js"></script>
     <script type="text/javascript" src="./public/js/submenu.js"></script>
     <script>'.$past_event_active.'</script>
+    <script>'.$display.'</script>
 ';

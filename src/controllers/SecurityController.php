@@ -137,7 +137,7 @@ class SecurityController extends AppController
         $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
         $this->userRepository->addUser($user,$activation_code);
 
-        return $this->render('admin-panel', ['messages' => ['Rejestracja przebiegła pomyślnie'],
+        return $this->render('admin-panel-users-list', ['messages' => ['Rejestracja przebiegła pomyślnie'],
            'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
 
     }

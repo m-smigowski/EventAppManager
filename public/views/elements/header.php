@@ -71,7 +71,6 @@ echo '
     <a href="/main" id="header-logo" class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="width: 280px">
         <h4>EVENT APP MANAGER</h4>
     </a>
-
     '.$search.'
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
     data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" a
@@ -80,7 +79,7 @@ echo '
     </button>
 
     <div id="header-logout" class="text-end">
-        <button type="button" class="btn btn-outline-warning">Wyloguj</button>
+        <a href="/logOut"><button type="button" class="btn btn-outline-warning">Wyloguj</button></a>
     </div>
 </header>
 

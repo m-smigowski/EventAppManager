@@ -15,7 +15,7 @@ echo '<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModa
                     }
 echo '</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>

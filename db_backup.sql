@@ -46,17 +46,18 @@ create table users_details
     id              serial
         constraint user_details_id_key
             unique,
-    name            varchar(100)        not null,
-    surname         varchar(100)        not null,
-    phone           varchar(20)         not null,
-    status          integer   default 1 not null,
-    active          integer   default 0,
-    activation_code varchar(255)        not null,
+    name            varchar(100)                                        not null,
+    surname         varchar(100)                                        not null,
+    phone           varchar(20)                                         not null,
+    status          integer      default 1                              not null,
+    active          integer      default 0,
+    activation_code varchar(255)                                        not null,
     activated_at    date,
-    created_at      timestamp default CURRENT_TIMESTAMP,
-    updated_at      date      default CURRENT_TIMESTAMP,
+    created_at      timestamp    default CURRENT_TIMESTAMP,
+    updated_at      date         default CURRENT_TIMESTAMP,
     last_login      timestamp,
-    ip_address      varchar(255)
+    ip_address      varchar(255),
+    profile_photo   varchar(255) default '/user.png'::character varying not null
 );
 
 comment on column users_details.status is '1 = normal, 2 = moderator, 3 = administrator';

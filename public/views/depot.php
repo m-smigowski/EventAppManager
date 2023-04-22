@@ -20,18 +20,17 @@
                 <h1 class="h3">Magazyn</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="addDepotItem">
-                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
+                        <button type="button" class="btn btn-primary me-2">Dodaj przedmiot</button>
                     </a>
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
             <section class="depot">
-                <div id="depot class=" table-responsive
-                ">
-                <div class="table-responsive">
-                    <table class="table table-hover table align-middle">
-                        <thead class="table-secondary table align-middle">
+                <div id="depot class="table-responsive">
+                <div class="table-responsive rounded-2">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark table align-middle">
                         <tr>
                             <th scope="col">Id</th>
                             <th scope="col">Zdjęcie</th>
@@ -46,14 +45,15 @@
                         <tbody class="items">
                         <?php foreach ($items as $item): ?>
                             <tr>
-                                <td><?= $item->getId() ?></td>
-                                <td><img width="150px" height="150px" src="public/img/uploads/<?= $item->getImage() ?> "
+                                <td class="table-light"><?= $item->getId() ?></td>
+                                <td class="table-light">
+                                    <img width="150px" height="150px" src="public/img/uploads/<?= $item->getImage() ?> "
                                 </td>
-                                <td><?= $item->getName() ?></td>
-                                <td><?= $item->getDescription() ?></td>
-                                <td><?= $item->getBarcode() ?></td>
-                                <td><?= $item->getQuantity() ?></td>
-                                <td>
+                                <td class="table-light"><?= $item->getName() ?></td>
+                                <td class="table-light"><?= $item->getDescription() ?></td>
+                                <td class="table-light"><?= $item->getBarcode() ?></td>
+                                <td class="table-light"><?= $item->getQuantity() ?></td>
+                                <td class="table-light">
                                     <a href="editDepotItem?item_id=<?= $item->getId() ?>&barcode=<?= $item->getBarcode() ?>">
                                         <button type="button" class="btn-edit btn btn-primary btn-sm">
                                             Zobacz więcej

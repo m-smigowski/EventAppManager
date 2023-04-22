@@ -1,7 +1,5 @@
 <?php
 
-
-
 echo '
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="d-flex flex-column flex-shrink-0 p-2 text-bg-dark">
@@ -21,7 +19,7 @@ echo '
                             </svg>
                             Wydarzenia
                         </a>
-                        <ul class="submenu collapse">
+                        <ul class="submenu submenu-events collapse">
                             <li><a class="nav-link" href="/events">Najbliższe</a></li>
                             <li><a class="nav-link" href="/pastEvents">Archiwalne </a></li>
                             <li><a class="nav-link" href="/calendar">Kalendarz</a> </li>
@@ -45,13 +43,18 @@ echo '
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="/usersPanel" class="nav-link text-white">
+                    <li class="nav-item has-submenu">
+                        <a href="#" class="nav-link text-white">
                             <svg class="bi pe-none me-2" width="16" height="16">
-                                <use xlink:href="#people-circle"/>
+                                <use xlink:href="#table"/>
                             </svg>
                             Panel Użytkownika
                         </a>
+                        <ul class="submenu submenu-userpanel collapse">
+                            <li><a class="nav-link" href="/userEdit">Edycja danych</a></li>
+                            <li><a class="nav-link" href="/userEditPass">Zmiana hasła </a></li>
+                        </ul>
+                     
                     </li>
 
                     <li class="nav-item">
@@ -61,6 +64,11 @@ echo '
                             </svg>
                             Panel Administratora
                         </a>
+                        <ul class="submenu submenu-adminpanel collapse">
+                            <li><a class="nav-link" href="/usersList">Lista użytkowników</a></li>
+                            <li><a class="nav-link" href="/modifyEventRole">Wykaz stanowisk</a></li>
+                            <li><a class="nav-link" href="/clientsList">Lista klientów</a></li>
+                        </ul>
                     </li>
                 </ul>
                 <hr>
@@ -71,8 +79,7 @@ echo '
                         <strong>'.$_SESSION['user_name'].' '.$_SESSION['user_surname'].'</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><a class="dropdown-item" href="#">Ustawienia</a></li>
-                        <li><a class="dropdown-item" href="#">Profil</a></li>
+                        <li><a class="dropdown-item" href="/userEdit">Ustawienia</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

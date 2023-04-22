@@ -55,8 +55,5 @@
 
 <?php include 'public/views/elements/scripts.php' ?>
 <script type="text/javascript" src="./public/js/password-valid.js"></script>
-<script>
-    <?php echo $display;?>
-</script>
 </body>
 </html>

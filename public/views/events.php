@@ -11,6 +11,7 @@
 <?php $search = '<input type="search" id="search-input" class="form-control form-control-dark text-bg-dark w-25 me-auto" placeholder="Szukaj....."
            aria-label="Search">'; ?>
 <?php include 'public/views/elements/header.php'; ?>
+<?php include 'public/views/elements/modal.php'; ?>
 
 <div class="container-fluid">
     <div class="row">
@@ -20,7 +21,7 @@
                 <h1 class="h3"><?=$title?></h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="addEvent">
-                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
+                        <button type="button" class="btn btn-primary me-2">Dodaj wydarzenie</button>
                     </a>
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
@@ -28,7 +29,7 @@
 
 
             <section>
-                <div class="table-responsive">
+                <div class="table-responsive rounded-2">
                     <table class="table table-hover table-bordered">
                         <thead class="table-dark table align-middle">
                         <tr>
@@ -46,14 +47,14 @@
                         <?php foreach ($events as $event): ?>
                             <?php $lp++ ?>
                             <tr>
-                                <td><?php echo $lp ?></td>
-                                <td><?= $event->getTitle() ?></td>
-                                <td><?= $event->getDescription() ?></td>
-                                <td><?= $event->getStatus() ?></td>
-                                <td><?= $event->getType() ?></td>
-                                <td><?= date_format(date_create($event->getEventStart()), "H:i d/m/Y") ?></td>
-                                <td><?= date_format(date_create($event->getEventEnd()), "H:i d/m/Y") ?></td>
-                                <td>
+                                <td class="table-light"><?php echo $lp ?></td>
+                                <td class="table-light"><?= $event->getTitle() ?></td>
+                                <td class="table-light"><?= $event->getDescription() ?></td>
+                                <td class="table-light"><?= $event->getStatus() ?></td>
+                                <td class="table-light"><?= $event->getType() ?></td>
+                                <td class="table-light"><?= date_format(date_create($event->getEventStart()), "H:i d/m/Y") ?></td>
+                                <td class="table-light"><?= date_format(date_create($event->getEventEnd()), "H:i d/m/Y") ?></td>
+                                <td class="table-light">
                                     <a href="eventViewDetails?event_id=<?= $event->getId() ?>">
                                         <button type="button" class="btn-edit btn btn-primary btn-sm ">Zobacz więcej
                                         </button>

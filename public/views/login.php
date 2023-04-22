@@ -53,8 +53,5 @@
 
 
 <?php include 'public/views/elements/scripts.php' ?>
-<script>
-    <?php echo $display;?>
-</script>
 </body>
 </html>

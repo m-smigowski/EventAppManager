@@ -18,34 +18,54 @@ class UsersPanelController extends AppController
         $this->userRepository = new UserRepository();
     }
 
-    public function usersPanel()
+    public function userEdit()
     {
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
         $email = $_SESSION['user_email'];
         $user = $this->userRepository->getUser($email);
 
-        $this->render('users-panel', ['user' => $user]);
-    }
+
+        if($_GET['msg'] == 'updated'){
+            return $this->render('user-edit', ['user' => $user,'messages' => ['Dane zostały zaaktualizowane.'],
+                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        if($_GET['msg'] == 'photo_error'){
+            return $this->render('user-edit', ['user' => $user,'messages' => ['Wybierz poprawne zdjęcie.'],
+                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
 
 
-    public function userEditPass()
-    {
-        $this->render('user-edit-pass',);
+        return $this->render('user-edit', ['user' => $user]);
     }
 
 
     public function  userUpdatePhoto(){
-        if($this->isPost()){
-            $profile_photo_src = $_POST['profile_image'];
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        if($this->isPost()) {
             $user_id = $_SESSION['user_id'];
-
-            if (is_uploaded_file($_FILES['image']['tmp_name']) && $this->validate($_FILES['image'])) {
+            if (is_uploaded_file($_FILES['profile_image']['tmp_name']) && $this->validate($_FILES['profile_image'])) {
                 move_uploaded_file(
-                    $_FILES['image']['tmp_name'],
-                    dirname(__DIR__) . self::UPLOAD_DIRECTORY . $_FILES['image']['name']
+                    $_FILES['profile_image']['tmp_name'],
+                    dirname(__DIR__) . self::UPLOAD_DIRECTORY . $_FILES['profile_image']['name']
                 );
+                if ($_POST['old_photo'] !== 'user.png') {
+                    unlink("public/img/app-image/" . $_POST['old_photo'] . "");
+                }
+                $this->userRepository->updateUserPhoto($_FILES['profile_image']['name'], $user_id);
+                $_SESSION['user_profile_photo'] = $_FILES['profile_image']['name'];
+                $this->redirect('userEdit'); ;
+            }else{
+                return $this->redirect('userEdit?msg=photo_error');
             }
-            //$this->userRepository->userUpdatePhoto($profile_photo_src,$user_id);
-
 
         }
 
@@ -68,7 +88,7 @@ class UsersPanelController extends AppController
 
     public function userUpdate()
     {
-        $email = $_SESSION['user_name'];
+        $email = $_SESSION['user_email'];
         $id = $_SESSION['user_id'];
 
         if ($this->isPost()) {
@@ -76,16 +96,25 @@ class UsersPanelController extends AppController
                 $user = $this->userRepository->getUser($email);
                 $user = new User($_POST['email'],$user->getPassword(), $_POST['name'], $_POST['surname'], $_POST['phone'],$user->getStatus(),$user->getActive());
                 $ud_id = $this->userRepository->getUserDetailsIdById($id);
-                $_SESSION['user_name'] = $_POST['email'];
+                $_SESSION['user_email'] = $_POST['email'];
+                $_SESSION['user_name'] = $_POST['name'];
+                $_SESSION['user_surname'] = $_POST['surname'];
                 $this->userRepository->updateUser($user,$ud_id);
-                return $this->redirect('/usersPanel');
+                return $this->redirect('/userEdit?msg=updated');
             }
         }
     }
 
 
+    public function userEditPass()
+    {
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
 
-
+        return $this->render('user-edit-pass',);
+    }
 
 
     public function userUpdatePass()
@@ -101,7 +130,7 @@ class UsersPanelController extends AppController
                         'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
                 }
 
-                $email = $_SESSION['user_name'];
+                $email = $_SESSION['user_email'];
                 $id = $_SESSION['user_id'];
                 $user = $this->userRepository->getUser($email);
                 $user_old_pass = $user->getPassword();

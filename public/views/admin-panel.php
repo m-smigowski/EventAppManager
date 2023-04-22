@@ -24,17 +24,18 @@
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
-            <form method="POST" ENCTYPE="multipart/form-data">
-                <a class='a-btn' href="/register">
+
+                <a href="/register">
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Dodaj użytkownika</button>
                 </a>
+
                 <a class='a-btn' href="/modifyEventRole">
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Dodaj/usuń stanowisko</button>
                 </a>
                 <a class='a-btn' href="/usersList">
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Lista użytkowników</button>
                 </a>
-            </form>
+
         </main>
     </div>
 </div>
@@ -43,8 +44,6 @@
 <?php include 'public/views/elements/scripts.php' ?>
 <script>
     $('.nav-link[href="/adminPanel"]').addClass("active");
-    <?=$display?>
-
 </script>
 </body>
 </html>

@@ -7,18 +7,22 @@ $path = parse_url( $path, PHP_URL_PATH);
 
 Router::get('index', 'DefaultController');
 Router::get('main', 'MainController');
-Router::get('usersPanel', 'UsersPanelController');
+Router::get('userEdit', 'UsersPanelController');
 Router::get('activate', 'SecurityController');
 
 Router::get('adminPanel', 'AdminPanelController');
 Router::get('usersList', 'AdminPanelController');
 Router::post('usersListEdit', 'AdminPanelController');
+Router::post('clientsList', 'AdminPanelController');
+Router::post('addClient', 'AdminPanelController');
+Router::post('editClient', 'AdminPanelController');
+
 
 Router::get('forgotPass', 'PasswordResetController');
 Router::get('createNewPassword', 'PasswordResetController');
 Router::post('resetPasswordRequest', 'PasswordResetController');
 
-Router::post('userEdit', 'UsersPanelController');
+
 Router::get('userEditPass', 'UsersPanelController');
 Router::post('userUpdate', 'UsersPanelController');
 Router::post('userUpdatePhoto', 'UsersPanelController');

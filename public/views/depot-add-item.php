@@ -18,15 +18,12 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h3">Dodaj przedmiot do magazynu</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a href="addDepotItem">
-                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
-                    </a>
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
             <section class="events-edit">
-                <form action="addDepotItem" method="POST" ENCTYPE="multipart/form-data">
+                <form class="w-75 box" action="addDepotItem" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Nazwa</label>
                         <input name="name" type="text" class="form-control"">
@@ -48,8 +45,13 @@
                         <input name="item_quantity" type="number" class="form-control">
                     </div>
                     <input name="id_assigned_by" type="hidden" value="<?php $_SESSION['user_id']; ?>">
-                    <button type="submit" class="btn btn-success">Dodaj</button>
-                    <input class="btn btn-primary" type="reset" value="Reset">
+                    <div class="d-flex mt-2">
+                        <button type="submit" class="btn btn-success me-2">Dodaj</button>
+                        <input class="btn btn-warning" type="reset" value="Reset">
+                        <button type="button" class="btn btn-primary ms-auto" onclick="window.location.href='/depot'">
+                            Wróć
+                        </button>
+                    </div>
                 </form>
             </section>
     </div>
@@ -57,8 +59,7 @@
 <?php include 'public/views/elements/scripts.php' ?>
 
 <script>
-    <?php echo $display;?>
-    $('.nav-item [href="/warehouse"]').addClass("active");
+    $('.nav-item [href="/depot"]').addClass("active");
 </script>
 
 </body>

@@ -24,11 +24,15 @@ class MainController extends AppController {
             return $this->render('login',['messages' => ['ZALOGUJ SIĘ!']]);
         }
 
+
+
         $id = $_SESSION['user_id'];
         $date = date('Y-m-d');
         $events = $this->eventRepository->getUpcomingEventsById($date,$id);
 
         $events_logs = $this->eventRepository->getEventsLogs();
+
+
 
         return $this->render('main', ['events' => $events,'title'=>"Nadchodzące wydarzenia",'events_logs'=>$events_logs]);
 

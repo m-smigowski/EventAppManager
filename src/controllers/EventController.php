@@ -28,9 +28,20 @@ class EventController extends AppController
         if (!$this->isLoggedIn()) {
             return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
         }
+
         $date = date('Y-m-d');
         $events = $this->eventRepository->getUpcomingEvents($date);
-        $this->render('events', ['events' => $events,'title'=>"Nadchodzące wydarzenia"]);
+
+        if($_GET['msg'] == 'permission_denied'){
+            $messages = ['Nie masz wystarczająco uprawnień'];
+            $display = "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()";
+        }
+
+        if($_GET['msg'] == 'succes'){
+            $messages = ['Wydarzenie dodane pomyślnie.'];
+            $display = "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()";
+        }
+        $this->render('events', ['events' => $events,'messages' => $messages,'display' => $display,'title'=>"Nadchodzące wydarzenia"]);
     }
 
 
@@ -106,8 +117,7 @@ class EventController extends AppController
         }
 
         if (!$this->isMod()) {
-            return $this->render('events', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+            return $this->redirect('/events?msg=permission_denied');
         }
 
         if ($this->isPost()) {
@@ -118,7 +128,7 @@ class EventController extends AppController
             $this->eventRepository->addLog($_SESSION['user_id'],"Dodał wydarzenie <a href='/eventViewDetails?event_id=".$event_id."'>".$_POST['title'])."</a>";
             $events = $this->eventRepository->getEvents();
 
-            return $this->redirect('/events');
+            return $this->redirect('/events?msg=succes');
         }
         $this->render('add-event');
     }

@@ -5,20 +5,23 @@ function getCurrentPathname () {
 function getCurrentSearch () {
     return window.location.search
 }
-const url = getCurrentPathname();
-//$('.nav-link[href="'+url+'"]').addClass("active");
 
-let result = url.toLocaleLowerCase().includes("event");
-if(result){
-    $(".submenu").addClass("show");
+let currentPath = getCurrentPathname();
+let eventShow = currentPath.toLocaleLowerCase().includes("event");
+let userPanelShow = currentPath.includes("userEdit");
+
+console.log(userPanelShow);
+console.log(eventShow);
+
+if(eventShow){
+    $(".submenu-events").addClass("show");
 }
 
-const search_url = getCurrentSearch();
-if((url == '/events') > 0){
+if((currentPath.includes("events")) > 0){
     $('.nav-link[href="/events"]').addClass("active");
 }
 
-if((url == '/pastEvents') > 0){
+if((currentPath == '/pastEvents') > 0){
     $('.nav-link[href="/pastEvents"]').addClass("active");
 }
 

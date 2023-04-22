@@ -1,5 +1,5 @@
 // stylowanie submenu kalendarza
-$(".submenu").addClass("show");
+$(".submenu-events").addClass("show");
 $('.nav-link[href="/calendar"]').addClass("active");
 
 const daysTag = document.querySelector(".days"),

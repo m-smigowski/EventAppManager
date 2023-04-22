@@ -26,7 +26,7 @@
             </div>
 
             <section class="item-edit">
-                <form action="editDepotItem" method="POST" ENCTYPE="multipart/form-data">
+                <form action="editDepotItem" class="box w-75" method="POST" ENCTYPE="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Tytuł</label>
                         <input name="name" type="text" class="form-control" value="<?= $item->getName()?>">
@@ -62,7 +62,6 @@
             </section>
     </div>
 </div>
-
 
 <?php include 'public/views/elements/scripts.php' ?>
 </body>

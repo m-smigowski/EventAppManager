@@ -30,7 +30,6 @@ class UserRepository extends Repository
             $user['phone'],
             $user['status'],
             $user['active']
-
         );
     }
 
@@ -186,27 +185,16 @@ class UserRepository extends Repository
         ]);
     }
 
-    public function updateUserPhoto(User $user,int $id)
+    public function updateUserPhoto(string $profile_photo_src,int $user_id)
     {
+        $uid = $this->getUserDetailsIdById($user_id);
         $stmt = $this->database->connect()->prepare('
-            UPDATE users_details SET name=?, surname=?, phone=? WHERE id=?
+            UPDATE users_details SET profile_photo=? WHERE id=?
         ');
 
         $stmt->execute([
-            $user->getName(),
-            $user->getSurname(),
-            $user->getPhone(),
-            $id
-        ]);
-
-        $stmt = $this->database->connect()->prepare('
-            UPDATE users SET email=?, password=? WHERE id_user_details=?
-        ');
-
-        $stmt->execute([
-            $user->getEmail(),
-            $user->getPassword(),
-            $this->getUserDetailsId($user)
+            $profile_photo_src,
+            $uid
         ]);
     }
 

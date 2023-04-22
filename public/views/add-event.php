@@ -15,17 +15,14 @@
         <?php include 'public/views/elements/nav.php' ?>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h3">Dodawanie wydarzeń</h1>
+                <h1 class="h4">Dodawanie wydarzeń</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a href="addEvent">
-                        <button type="button" class="btn btn-primary me-2">Dodaj</button>
-                    </a>
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
             <section class="add-event">
-                <form name="event-form" class="w-75" action="addEvent" method="POST"
+                <form name="event-form" class="w-75 box" action="addEvent" method="POST"
                       onsubmit="return validateEventForm()" ENCTYPE="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Tytuł</label>

@@ -26,7 +26,7 @@
             </div>
 
             <section class="users-list-edit">
-                <form class="register w-75" action="usersListEdit" method="POST">
+                <form class="register w-75 box" action="usersListEdit" method="POST">
                     <div class="form-outline mb-2">
                         <input name="name" type="text" class="form-control" value="<?= $user[0]["name"] ?>" required/>
                         <label class="form-label">Imię</label>
@@ -116,7 +116,7 @@
                             Wróć
                         </button>
                         <button type="submit" class="btn-drop btn btn-danger" name="Drop">
-                            Usuń
+                            Usuń użytkownika
                         </button>
                     </div>
 
