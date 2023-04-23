@@ -30,17 +30,17 @@ class UsersPanelController extends AppController
 
 
         if($_GET['msg'] == 'updated'){
-            return $this->render('user-edit', ['user' => $user,'messages' => ['Dane zostały zaaktualizowane.'],
+            return $this->render('user-panel-user-edit', ['user' => $user,'messages' => ['Dane zostały zaaktualizowane.'],
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         if($_GET['msg'] == 'photo_error'){
-            return $this->render('user-edit', ['user' => $user,'messages' => ['Wybierz poprawne zdjęcie.'],
+            return $this->render('user-panel-user-edit', ['user' => $user,'messages' => ['Wybierz poprawne zdjęcie.'],
                 'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
 
-        return $this->render('user-edit', ['user' => $user]);
+        return $this->render('user-panel-user-edit', ['user' => $user]);
     }
 
 
@@ -113,7 +113,7 @@ class UsersPanelController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        return $this->render('user-edit-pass',);
+        return $this->render('user-panel-user-edit-pass',);
     }
 
 
@@ -126,7 +126,7 @@ class UsersPanelController extends AppController
                 $re_pass = $_POST['confirmed_pass'];
 
                 if(empty($old_pass)||empty($new_pass)||empty($re_pass)) {
-                    return $this->render('user-edit-pass',['messages' => ['Uzupełnij wszystkie pola danymi'],
+                    return $this->render('user-panel-user-edit-pass',['messages' => ['Uzupełnij wszystkie pola danymi'],
                         'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
                 }
 
@@ -136,12 +136,12 @@ class UsersPanelController extends AppController
                 $user_old_pass = $user->getPassword();
 
                 if($re_pass!==$new_pass){
-                    return $this->render('user-edit-pass',['messages' => ['Nowe hasła nie są takie same, spróbuj ponownie'],
+                    return $this->render('user-panel-user-edit-pass',['messages' => ['Nowe hasła nie są takie same, spróbuj ponownie'],
                     'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
                 }
 
                 if(md5($old_pass) !== $user_old_pass){
-                    return $this->render('user-edit-pass',['messages' => ['Poprzednie hasło jest niepoprawne'],
+                    return $this->render('user-panel-user-edit-pass',['messages' => ['Poprzednie hasło jest niepoprawne'],
                         'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
                 }
 
@@ -149,7 +149,7 @@ class UsersPanelController extends AppController
                     $this->userRepository->changePassword(md5($new_pass),$id);
                     return $this->logOut();
                     }else {
-                    return $this->render('user-edit-pass', ['messages' => ['Nie możesz zmienic hasła na takie same jak poprzednio'],
+                    return $this->render('user-panel-user-edit-pass', ['messages' => ['Nie możesz zmienic hasła na takie same jak poprzednio'],
                         'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
                 }
         }

@@ -25,17 +25,14 @@
                 <div class="card">
                     <div class="card-body py-5 px-md-5">
                         <form class="login" action="login" method="POST">
-                            <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input name="email" type="text" id="form3Example3" class="form-control"/>
                                 <label class="form-label" for="form3Example3">Adres e-mail</label>
                             </div>
-                            <!-- Password input -->
                             <div class="form-outline mb-4">
                                 <input name="password" type="password" id="form3Example4" class="form-control"/>
                                 <label class="form-label" for="form3Example4">Hasło</label>
                             </div>
-                            <!-- Submit button -->
                             <div class="d-grid gap-1">
                                 <button type="submit" class="btn btn-primary btn-block mb-4">
                                     Zaloguj się

@@ -59,7 +59,7 @@
                         <button type="button" class="btn btn-primary" onclick="window.location.href='/clientsList'">
                             Wróć
                         </button>
-                        <button type="submit" class="btn btn-danger ms-auto" name="dropClient">Usuń wydarzenie</button>
+                        <button type="submit" class="btn btn-danger ms-auto" name="dropClient">Usuń klienta</button>
                     </div>
 
 

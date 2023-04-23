@@ -237,8 +237,21 @@ class EventRepository extends Repository
             $event->getEventEnd(),
             $event->getLocation(),
         ]);
-
     }
+
+    public function addClientEvent(int $client_id, int $event_id)
+    {
+        $stmt = $this->database->connect()->prepare('
+            INSERT INTO events_clients(id_events,id_clients)
+            VALUES(?,?)
+        ');
+
+        $stmt->execute([
+            $event_id,
+            $client_id
+        ]);
+    }
+
 
     public function removeEvent(int $event_id)
     {
@@ -250,10 +263,24 @@ class EventRepository extends Repository
     }
 
 
-
-
-
     // Event View Details //
+
+
+    public function getEventClient(int $event_id)
+    {
+        $stmt = $this->database->connect()->prepare('
+        SELECT c.company_name,c.name, c.surname,c.phone FROM events_clients as ec
+        INNER JOIN events e ON ec.id_events = e.id
+        INNER JOIN clients c ON ec.id_clients = c.id
+        WHERE ec.id_events = ?
+        ');
+
+        $stmt->execute([$event_id]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
 
 
     public function getUsersInEvent(int $event_id): ?array

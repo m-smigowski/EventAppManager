@@ -18,32 +18,28 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h3">Dodaj użytkownika</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a href="register">
-                        <button type="button" class="btn btn-primary me-2">Dodaj użytkownika</button>
-                    </a>
                     <button type="button" class="btn btn-success" onclick="location.reload()">Odśwież</button>
                 </div>
             </div>
 
             <section class="user-register box w-50">
-                <form class="register" action="register" method="POST">
-                    <!-- Email input -->
+                <form class="addUser" action="addUser" method="POST">
                     <div class="form-outline mb-2">
-                        <input name="email" type="text" class="form-control" required/>
                         <label class="form-label">Adres E-Mail</label>
+                        <input name="email" type="text" class="form-control" required/>
                     </div>
 
                     <div class="form-outline mb-2">
-                        <input name="name" type="text" class="form-control" required/>
                         <label class="form-label">Imię</label>
+                        <input name="name" type="text" class="form-control" required/>
                     </div>
                     <div class="form-outline mb-2">
-                        <input name="surname" type="text" class="form-control" required/>
                         <label class="form-label" ">Nazwisko</label>
+                        <input name="surname" type="text" class="form-control" required/>
                     </div>
                     <div class="form-outline mb-2">
-                        <input name="phone" type="text" class="form-control" required/>
                         <label class="form-label">Telefon</label>
+                        <input name="phone" type="number" class="form-control" required/>
                     </div>
 
 

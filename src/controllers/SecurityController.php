@@ -41,19 +41,6 @@ class SecurityController extends AppController
         $password = md5($_POST['password']);
 
         $user = $this->userRepository->getUser($email);
-        $user_id = $this->userRepository->getUserId($email);
-
-        $_SESSION['user_name'] = $user->getName();
-        $_SESSION['user_surname'] = $user->getSurname();
-        $_SESSION['user_email'] = $user->getEmail();
-        $_SESSION['user_id'] = $user_id;
-        $_SESSION['user_status'] = $user->getStatus();
-
-        $_SESSION['user_profile_photo'] = $this->userRepository->getUserProfileImagePath($user);
-
-        $ip_address = $this->getIPAddress();
-        $this->userRepository->updateLastLogin($user,$ip_address);
-
         if (!$user) {
             return $this->render('login', ['messages' => ['Użytkownik nie został znaleziony w bazie danych, sprawdź login i hasło!'],
             'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
@@ -77,70 +64,26 @@ class SecurityController extends AppController
             ]);
         }
 
+
+        $user_id = $this->userRepository->getUserId($email);
+
+        $_SESSION['user_name'] = $user->getName();
+        $_SESSION['user_surname'] = $user->getSurname();
+        $_SESSION['user_email'] = $user->getEmail();
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_status'] = $user->getStatus();
+
+        $_SESSION['user_profile_photo'] = $this->userRepository->getUserProfileImagePath($user);
+
+        $ip_address = $this->getIPAddress();
+        $this->userRepository->updateLastLogin($user,$ip_address);
+
+
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/main");
     }
 
 
-    public function send_activation_email(string $email, string $activation_code): void
-    {
-        $url = "http://$_SERVER[HTTP_HOST]";
-        // create the activation link
-        $activation_link = $url."/activate?email=$email&activation_code=$activation_code";
-
-        // set email subject & body
-        $subject = 'Aktywuj swoje konto';
-        $body ='
-            Witaj,
-            w celu aktywacji swojego konta, klikjnij w poniższy link '.
-            $activation_link;
-        // send the email
-        $this->sendEmail($email, $subject, $body);
-
-    }
-
-
-    public function register(){
-
-        if (!$this->isLoggedIn()) {
-            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-        }
-        if (!$this->isAdmin()) {
-            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-        }
-
-        if (!$this->isPost()) {
-            return $this->render('register');
-        }
-
-        $email = $_POST['email'];
-        $user_exist = $this->userRepository->getUser($email);
-
-        if ($user_exist) {
-            return $this->render('register', ['messages' => ['Użytkownik z tym emailem już istnieje'],
-                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
-            ]);
-        }
-
-        $password = null;
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
-        $phone = $_POST['phone'];
-        $active = 0;
-        $status = 1;
-
-        $activation_code = md5($email);
-        $this->send_activation_email($email,$activation_code);
-
-        $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
-        $this->userRepository->addUser($user,$activation_code);
-
-        return $this->render('admin-panel-users-list', ['messages' => ['Rejestracja przebiegła pomyślnie'],
-           'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-
-    }
 
 
     public function activate()

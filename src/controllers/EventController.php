@@ -7,6 +7,7 @@ require_once __DIR__ . '/../models/Item.php';
 require_once __DIR__.'/../repository/EventRepository.php';
 require_once __DIR__.'/../repository/UserRepository.php';
 require_once __DIR__.'/../repository/DepotRepository.php';
+require_once __DIR__.'/../repository/AdminPanelRepository.php';
 
 class EventController extends AppController
 {
@@ -14,6 +15,7 @@ class EventController extends AppController
     private $eventRepository;
     private $userRepository;
     private $depotRepository;
+    private $adminPanelRepository;
 
     public function __construct()
     {
@@ -21,6 +23,7 @@ class EventController extends AppController
         $this->eventRepository = new EventRepository();
         $this->userRepository = new UserRepository();
         $this->depotRepository = new DepotRepository();
+        $this->adminPanelRepository = new adminPanelRepository();
     }
 
     public function events()
@@ -62,13 +65,11 @@ class EventController extends AppController
     public function eventEdit()
     {
         if (!$this->isLoggedIn()) {
-
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         if (!$this->isMod()) {
-
             return $this->render('events', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
@@ -123,14 +124,19 @@ class EventController extends AppController
         if ($this->isPost()) {
             $event_id = ($this->eventRepository->getLastEventId())+1;
             $event = new Event($event_id,$_POST['title'], $_POST['description'], $_POST['status'],
-                $_POST['type'], $_POST['event_start'],$_SESSION['user_id'],$_POST['event_end'],$_POST['location']);
+                $_POST['type'], $_POST['event_start'],$_SESSION['user_id'],$_POST['event_end'],$_POST['location'],);
             $this->eventRepository->addEvent($event);
+            $this->eventRepository->addClientEvent($_POST['client_id'],$event_id);
+
             $this->eventRepository->addLog($_SESSION['user_id'],"Dodał wydarzenie <a href='/eventViewDetails?event_id=".$event_id."'>".$_POST['title'])."</a>";
             $events = $this->eventRepository->getEvents();
 
             return $this->redirect('/events?msg=succes');
         }
-        $this->render('add-event');
+
+        $clients = $this->adminPanelRepository->getClients();
+
+        $this->render('event-add',['clients'=>$clients]);
     }
 
     public function isEventPast($event_id){ //sprawdzanie czy dany event jest archiwalny
@@ -154,10 +160,9 @@ class EventController extends AppController
         $assignedBy_id = $event->getIdAssignedBy();
         $user = $this->userRepository->getUserById($assignedBy_id);
 
+        $event_clients = $this->eventRepository->getEventClient($event_id);
         $event_schedules = $this->eventRepository->getEventSchedules($event_id);
-
         $past = $this->isEventPast($event_id);
-
         $event_users = $this->eventRepository->getUsersInEvent($event_id);
 
         if ($event_users === null) {
@@ -169,7 +174,7 @@ class EventController extends AppController
         }
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
 
-        $this->render('event-view-details', ['event' => $event,'past'=>$past,'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
+        $this->render('event-view-details', ['event' => $event,'past'=>$past,'event_clients'=>$event_clients,'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
     }
 
     public function eventEditSchedules()
@@ -272,7 +277,7 @@ class EventController extends AppController
     }
 
     public function calendar(){
-        $this->render('calendar');
+        $this->render('event-calendar');
     }
 
     public function calendarSearch(){

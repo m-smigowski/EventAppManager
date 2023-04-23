@@ -66,7 +66,7 @@ echo '
                         </a>
                         <ul class="submenu submenu-adminpanel collapse">
                             <li><a class="nav-link" href="/usersList">Lista użytkowników</a></li>
-                            <li><a class="nav-link" href="/modifyEventRole">Wykaz stanowisk</a></li>
+                            <li><a class="nav-link" href="/rolesList">Wykaz stanowisk</a></li>
                             <li><a class="nav-link" href="/clientsList">Lista klientów</a></li>
                         </ul>
                     </li>

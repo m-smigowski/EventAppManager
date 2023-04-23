@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="form-outline mb-2">
-                            <label >Imię</label>
+                            <label>Imię</label>
                             <input name="name" type="text" class="form-control" disabled
                                    value="<?= $user->getName(); ?>"/>
                         </div>

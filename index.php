@@ -10,13 +10,16 @@ Router::get('main', 'MainController');
 Router::get('userEdit', 'UsersPanelController');
 Router::get('activate', 'SecurityController');
 
-Router::get('adminPanel', 'AdminPanelController');
+
+Router::post('addUser', 'AdminPanelController');
 Router::get('usersList', 'AdminPanelController');
 Router::post('usersListEdit', 'AdminPanelController');
 Router::post('clientsList', 'AdminPanelController');
 Router::post('addClient', 'AdminPanelController');
 Router::post('editClient', 'AdminPanelController');
-
+Router::get('rolesList', 'AdminPanelController');
+Router::get('addEventRole', 'AdminPanelController');
+Router::get('dropEventRole', 'AdminPanelController');
 
 Router::get('forgotPass', 'PasswordResetController');
 Router::get('createNewPassword', 'PasswordResetController');
@@ -46,14 +49,10 @@ Router::get('depot', 'DepotController');
 Router::post('addDepotItem', 'DepotController');
 Router::post('editDepotItem', 'DepotController');
 
-Router::get('modifyEventRole', 'AdminPanelController');
-Router::get('addEventRole', 'AdminPanelController');
-Router::get('dropEventRole', 'AdminPanelController');
 
 
 Router::post('login', 'SecurityController');
 Router::post('logOut', 'AppController');
-Router::post('register', 'SecurityController');
 Router::post('addEvent', 'EventController');
 Router::post('addEventAction', 'EventController');
 Router::post('search', 'EventController');

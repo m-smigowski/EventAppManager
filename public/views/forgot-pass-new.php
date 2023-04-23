@@ -26,12 +26,10 @@
                 <div class="card">
                     <div class="card-body py-5 px-md-5">
                         <form class="forgot-pass-new" action="resetPasswordRequest" method="POST">
-                            <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input name="password" type="password" class="form-control"/>
                                 <label class="form-label">Podaj nowe hasło</label>
                             </div>
-                            <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input name="confirmed_pass" type="password" class="form-control"/>
                                 <label class="form-label">Powtórz nowe hasło</label>
@@ -39,7 +37,6 @@
                             <input name="selector" type="hidden" value="<?php echo $selector ?>" class="form-control"/>
                             <input name="validator" type="hidden" class="form-control"
                                    value="<?php echo $validator ?>"/>
-                            <!-- Submit button -->
                             <div class="d-grid gap-1">
                                 <button type="submit" name='reset-pwd-submit' class="btn btn-primary btn-block mb-4">
                                     Wyślij
@@ -56,8 +53,5 @@
 
 <?php include 'public/views/elements/scripts.php' ?>
 <script type="text/javascript" src="./public/js/password-valid.js"></script>
-<script>
-    <?php echo $display;?>
-</script>
 </body>
 </html>

@@ -56,6 +56,15 @@
                         <label for="location">Lokalizacja wydarzenia</label>
                         <input name="location" type="text" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="location">Klient</label>
+                        <select name="client_id" type="text" class="form-select" required>
+                            <?php foreach ($clients as $client): ?>
+                            <option value="<?=$client->getId()?>"> <?=$client->getCompanyName()?> (<?=$client->getName()?> <?=$client->getSurname()?>)</option>
+                            <?endforeach;?>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success mt-2">Dodaj</button>
                     <input class="btn btn-primary mt-2" type="reset" value="Reset">
 

@@ -56,6 +56,11 @@ if ($_SESSION['user_status'] === 2 || $_SESSION['user_status'] === 3) {
 
                     <div class="col event-details-right-side ">
                         <p>Miejsce wydarzenia: <strong><?= $event->getLocation() ?> </strong></p>
+                        <?php foreach ($event_clients as $event_client): ?>
+                            <p>Kilent:  <strong><?=$event_client['company_name']?></strong> (<?=$event_client['name']?> <?=$event_client['surname']?>)
+                            </p>
+                        <p>Telefon klienta:  <strong><?=$event_client['phone']?></strong> </p>
+                        <?php endforeach; ?>
                         <p>Harmonogram pracy:</p>
                         <table class="table table-striped table-sm box">
                             <tr>

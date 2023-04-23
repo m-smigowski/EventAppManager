@@ -26,19 +26,19 @@
                     <div class="card">
                         <div class="card-body py-5 px-md-5">
                             <form class="register-new-pass" action="activate" method="POST">
-                                <!-- Email input -->
+                                <!-- password input -->
                                 <div class="form-outline mb-4">
                                     <input name="password" type="password" class="form-control" />
                                     <label class="form-label">Podaj nowe hasło</label>
                                 </div>
-                                <!-- Email input -->
+                                <!-- email input -->
                                 <div class="form-outline mb-4">
                                     <input name="confirmed_pass" type="password" class="form-control" />
                                     <label class="form-label">Powtórz nowe hasło</label>
                                 </div>
                                 <input name="activation_code" type="hidden"  value="<?php echo $activation_code?>" class="form-control" />
                                 <input name="email" type="hidden"  value="<?php echo $email?>" class="form-control" />
-                                <!-- Submit button -->
+                                <!-- submit button -->
                                 <div class="d-grid gap-1">
                                     <button type="submit"  name='reset-pwd-submit' class="btn btn-primary btn-block mb-4">
                                         Wyślij

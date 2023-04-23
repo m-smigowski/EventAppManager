@@ -28,7 +28,7 @@
                         <form class="login" action="forgotPass" method="POST">
                             <div class="form-outline mb-4">
                                 <input name="email" type="text" class="form-control"/>
-                                <label class="form-label">Email addres</label>
+                                <label class="form-label">ADRES E-MAIL</label>
                             </div>
                             <div class="d-grid gap-1">
                                 <button type="submit" class="btn btn-primary btn-block mb-4">
@@ -45,8 +45,5 @@
 </section>
 
 <?php include 'public/views/elements/scripts.php' ?>
-<script>
-    <?php echo $display;?>
-</script>
 </body>
 </html>

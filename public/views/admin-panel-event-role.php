@@ -55,7 +55,7 @@
 <script>
     $(".submenu-events").removeClass("show")
     $(".submenu-adminpanel").addClass("show");
-    $('.nav-item [href="/modifyEventRole"]').addClass("active");
+    $('.nav-item [href="/rolesList"]').addClass("active");
 </script>
 
 </body>

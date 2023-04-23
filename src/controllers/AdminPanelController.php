@@ -20,37 +20,20 @@ class AdminPanelController extends AppController
         $this->eventRepository = new EventRepository();
     }
 
-    public function adminPanel()
-    {
 
+    public function rolesList()
+    {
         if (!$this->isLoggedIn()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
-
-        if (!$this->isAdmin()) {
-            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-        }
-
-        return $this->render('admin-panel');
-    }
-
-    public function modifyEventRole()
-    {
-
-        if (!$this->isLoggedIn()) {
-            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
-                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
-        }
-
         if (!$this->isAdmin()) {
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
         $all_roles = $this->eventRepository->getAllRoles();
-        return $this->render('modify-event-role', ['roles' => $all_roles]);
+        return $this->render('admin-panel-event-role', ['roles' => $all_roles]);
     }
 
     public function addEventRole()
@@ -65,12 +48,11 @@ class AdminPanelController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-
         if (isset($_POST['role_name'])) {
             $role_name = $_POST['role_name'];
             $this->adminPanelRepository->addRole($role_name);
             $all_roles = $this->eventRepository->getAllRoles();
-            return $this->render('modify-event-role', ['roles' => $all_roles]);
+            return $this->render('admin-panel-event-role', ['roles' => $all_roles]);
         }
     }
 
@@ -90,7 +72,7 @@ class AdminPanelController extends AppController
             $role_name = $_POST['role_name'];
             $this->adminPanelRepository->dropRole($role_name);
             $all_roles = $this->eventRepository->getAllRoles();
-            return $this->render('modify-event-role', ['roles' => $all_roles]);
+            return $this->render('admin-panel-event-role', ['roles' => $all_roles]);
         }
     }
 
@@ -98,6 +80,48 @@ class AdminPanelController extends AppController
     {
         $users = $this->adminPanelRepository->getAllUsers();
         return $this->render('admin-panel-users-list', ['users' => $users]);
+    }
+
+    public function addUser(){
+
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+        if (!$this->isAdmin()) {
+            return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
+                'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+        }
+
+        if (!$this->isPost()) {
+            return $this->render('admin-panel-user-add');
+        }
+
+        $email = $_POST['email'];
+        $user_exist = $this->userRepository->getUser($email);
+
+        if ($user_exist) {
+            return $this->render('admin-panel-user-add', ['messages' => ['Użytkownik z tym emailem już istnieje'],
+                'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"
+            ]);
+        }
+
+        $password = null;
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $phone = $_POST['phone'];
+        $active = 0;
+        $status = 1;
+
+        $activation_code = md5($email);
+        $this->send_activation_email($email,$activation_code);
+
+        $user = new User($email, md5($password), $name, $surname,$phone,$status,$active);
+        $this->userRepository->addUser($user,$activation_code);
+
+        return $this->render('admin-panel-users-list', ['messages' => ['Rejestracja przebiegła pomyślnie'],
+            'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
+
     }
 
     public function usersListEdit()
