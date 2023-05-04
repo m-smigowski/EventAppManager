@@ -56,6 +56,7 @@
                         <label for="location">Lokalizacja wydarzenia</label>
                         <input name="location" type="text" class="form-control">
                     </div>
+
                     <div class="form-group">
                         <label for="location">Klient</label>
                         <select name="client_id" type="text" class="form-select" required>

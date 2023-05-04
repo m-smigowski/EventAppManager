@@ -44,7 +44,7 @@ class EventController extends AppController
             $messages = ['Wydarzenie dodane pomyślnie.'];
             $display = "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()";
         }
-        $this->render('events', ['events' => $events,'messages' => $messages,'display' => $display,'title'=>"Nadchodzące wydarzenia"]);
+        $this->render('events', ['events' => $events,'messages' => $messages,'display' => $display,'title'=>"Aktualne wydarzenia"]);
     }
 
 
@@ -74,10 +74,14 @@ class EventController extends AppController
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
 
-        $past = $this->isEventPast($event_id);
+
         $event_id = $_GET['event_id'];
+        $past = $this->isEventPast($event_id);
         $event = $this->eventRepository->getEvent($event_id);
-        $this->render('event-edit', ['event' => $event,'past'=>$past]);
+        $clients = $this->adminPanelRepository->getClients();
+        $event_clients = $this->eventRepository->getClientsOrderByCurrentEventClient($event_id);
+
+        $this->render('event-edit', ['event' => $event,'event_clients'=>$event_clients,'clients'=>$clients,'past'=>$past]);
     }
 
     public function updateEvent()
@@ -96,7 +100,7 @@ class EventController extends AppController
             if (isset($_POST['update'])) { // aktualizowanie wydarzenia
                 $event = new Event($_POST['event_id'], $_POST['title'], $_POST['description'], $_POST['status'], $_POST['type'],
                     $_POST['event_start'],$_POST['assigned_by_id'],$_POST['event_end'],$_POST['location']);
-                $this->eventRepository->updateEvent($event);
+                $this->eventRepository->updateEvent($event,$_POST['client_id']);
                 $this->eventRepository->addLog($_SESSION['user_id'],"Zaktualizował szczegóły wydarzenia ".
                 "<a href='/eventViewDetails?event_id=".$_POST['event_id']."'>".$_POST['title'])."</a>";
                 return $this->redirect('/eventViewDetails?event_id='.$_POST['event_id']);
@@ -129,7 +133,6 @@ class EventController extends AppController
             $this->eventRepository->addClientEvent($_POST['client_id'],$event_id);
 
             $this->eventRepository->addLog($_SESSION['user_id'],"Dodał wydarzenie <a href='/eventViewDetails?event_id=".$event_id."'>".$_POST['title'])."</a>";
-            $events = $this->eventRepository->getEvents();
 
             return $this->redirect('/events?msg=succes');
         }
@@ -140,7 +143,7 @@ class EventController extends AppController
     }
 
     public function isEventPast($event_id){ //sprawdzanie czy dany event jest archiwalny
-        $current_date = date("Y-m-d i-s");
+        $current_date = date("Y-m-d");
         $is_past = $this->eventRepository->isPastEvent($event_id);
         if($current_date>$is_past){
             return true;

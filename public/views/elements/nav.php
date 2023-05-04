@@ -33,6 +33,10 @@ echo '
                             </svg>
                             Spotkania
                         </a>
+                         <ul class="submenu submenu-meetings collapse">
+                            <li><a class="nav-link" href="/meetings">Najbliższe</a></li>
+                            <li><a class="nav-link" href="/pastMeetings">Archiwalne </a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="/depot" class="nav-link text-white">

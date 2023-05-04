@@ -35,11 +35,31 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select name="status" type="text" class="form-control" required
-                                value="<?= $event->getStatus(); ?>">
+                        <select name="status" type="text" class="form-control" required>
+                            <?php
+                            if ($event->getStatus() === "Potwierdzone") {
+                                echo "
                             <option>Potwierdzone</option>
                             <option>Niepotwierdzone</option>
                             <option>Odwołane</option>
+                            ";
+                            }
+                            if ($event->getStatus() === "Niepotwierdzone") {
+                                echo "
+                            <option>Niepotwierdzone</option>
+                            <option>Potwierdzone</option>
+                            <option>Odwołane</option>
+                            ";
+                            }
+                            if ($event->getStatus() === "Odwołane") {
+                                echo "
+                            <option>Odwołane</option>
+                            <option>Niepotwierdzone</option>
+                            <option>Potwierdzone</option>
+                            ";
+                            }
+                            ?>
+
                         </select>
                     </div>
                     <div class="form-group">
@@ -60,6 +80,16 @@
                         <label for="location">Lokalizacja wydarzenia</label>
                         <input name="location" type="text" class="form-control" value="<?= $event->getLocation() ?>">
                     </div>
+
+                    <div class="form-group">
+                        <label for="location">Klient</label>
+                        <select name="client_id" type="text" class="form-select" required>
+                            <?php foreach ($event_clients as $event_client): ?>
+                            <option value="<?=$event_client['id']?>"><?=$event_client['company_name']?> (<?=$event_client['name']?> <?=$event_client['surname']?>)</option>
+                            <?endforeach;?>
+                        </select>
+                    </div>
+
 
                     <input name="event_id" type="hidden" value="<?= $event->getID() ?>">
                     <input name="assigned_by_id" type="hidden" value="<?= $event->getIdAssignedBy() ?>">

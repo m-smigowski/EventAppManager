@@ -57,8 +57,8 @@ function createEvent(event) {
     const eventE = clone.querySelector(".event-end");
     eventE.innerHTML = event.eventend;
 
-    const button = clone.querySelector(".btn-edit");
-    button.innerHTML = `<a href="eventViewDetails?event_id=${event.id}">Zobacz więcej</a>`;
+    const button = clone.querySelector(".btn-more");
+    button.innerHTML = `<a href="eventViewDetails?event_id=${event.id}"><button type="button" class="btn-edit btn btn-primary btn-sm ">Zobacz więcej</button></a>`;
 
     titleH2.innerHTML = "Wyszukane wydarzenia";
 

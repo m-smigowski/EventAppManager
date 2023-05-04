@@ -39,6 +39,10 @@ Router::get('eventEditWorkers', 'EventController');
 Router::get('dropWorkerFromEvent', 'EventController');
 Router::get('updateEvent', 'EventController');
 
+Router::get('meetings', 'MeetingsController');
+Router::get('addMeeting', 'MeetingsController');
+Router::get('meetingDetails', 'MeetingsController');
+
 Router::get('calendar', 'EventController');
 
 Router::post('searchDepot', 'DepotController');

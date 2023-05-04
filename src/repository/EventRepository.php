@@ -91,8 +91,6 @@ class EventRepository extends Repository
 
     }
 
-
-
     public function getLastEventId():int{
         $stmt = $this->database->connect()->prepare('
         SELECT id FROM events ORDER BY id DESC;
@@ -102,6 +100,7 @@ class EventRepository extends Repository
 
         return $last_event_id;
     }
+
 
     public function getUpcomingEvents($date): array
     {
@@ -198,7 +197,7 @@ class EventRepository extends Repository
     }
 
 
-    public function updateEvent(Event $event): void
+    public function updateEvent(Event $event,int $client_id)
     {
         $stmt = $this->database->connect()->prepare('
             UPDATE events 
@@ -215,6 +214,17 @@ class EventRepository extends Repository
             $event->getLocation(),
             $event->getId(),
         ]);
+
+        $stmt = $this->database->connect()->prepare('
+            UPDATE events_clients 
+            SET id_clients=? WHERE id_events=?;
+        ');
+        $stmt->execute([
+            $client_id,
+            $event->getId(),
+        ]);
+
+
     }
 
     public function addEvent(Event $event): void
@@ -269,13 +279,28 @@ class EventRepository extends Repository
     public function getEventClient(int $event_id)
     {
         $stmt = $this->database->connect()->prepare('
-        SELECT c.company_name,c.name, c.surname,c.phone FROM events_clients as ec
+        SELECT c.id,c.company_name,c.name, c.surname,c.phone FROM events_clients as ec
         INNER JOIN events e ON ec.id_events = e.id
         INNER JOIN clients c ON ec.id_clients = c.id
         WHERE ec.id_events = ?
         ');
 
         $stmt->execute([$event_id]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
+    public function getClientsOrderByCurrentEventClient(int $event_id)
+    {
+        $client = $this->getEventClient($event_id);
+        $stmt = $this->database->connect()->prepare('
+        SELECT c.id,c.company_name,c.name, c.surname,c.phone FROM clients as c
+        ORDER BY c.id = ? DESC, c.id ASC
+        ');
+
+        $stmt->execute([$client[0]['id']]);
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
