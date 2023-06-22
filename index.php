@@ -10,7 +10,6 @@ Router::get('main', 'MainController');
 Router::get('userEdit', 'UsersPanelController');
 Router::get('activate', 'SecurityController');
 
-
 Router::post('addUser', 'AdminPanelController');
 Router::get('usersList', 'AdminPanelController');
 Router::post('usersListEdit', 'AdminPanelController');
@@ -24,7 +23,6 @@ Router::get('dropEventRole', 'AdminPanelController');
 Router::get('forgotPass', 'PasswordResetController');
 Router::get('createNewPassword', 'PasswordResetController');
 Router::post('resetPasswordRequest', 'PasswordResetController');
-
 
 Router::get('userEditPass', 'UsersPanelController');
 Router::post('userUpdate', 'UsersPanelController');
@@ -41,7 +39,11 @@ Router::get('updateEvent', 'EventController');
 
 Router::get('meetings', 'MeetingsController');
 Router::get('addMeeting', 'MeetingsController');
+Router::get('editMeeting', 'MeetingsController');
 Router::get('meetingDetails', 'MeetingsController');
+Router::get('addUserMeetings', 'MeetingsController');
+Router::get('dropUserMeetings', 'MeetingsController');
+Router::get('updateMeeting', 'MeetingsController');
 
 Router::get('calendar', 'EventController');
 
@@ -52,8 +54,6 @@ Router::post('addEquipmentToRent', 'DepotController');
 Router::get('depot', 'DepotController');
 Router::post('addDepotItem', 'DepotController');
 Router::post('editDepotItem', 'DepotController');
-
-
 
 Router::post('login', 'SecurityController');
 Router::post('logOut', 'AppController');

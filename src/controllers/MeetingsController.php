@@ -74,10 +74,86 @@ class MeetingsController extends AppController
         $meeting_id = $_GET['meeting_id'];
         $meeting = $this->meetingsRepository->getMeeting($meeting_id);
 
-        $client_id = $meeting->getClient();
+        $users_in_meeting = $this->meetingsRepository->getUsersInMeeting($meeting_id);
 
-
-        $this->render('meeting-details',['meeting' => $meeting]);
+        $this->render('meeting-details',['meeting' => $meeting,'users_in_meeting' => $users_in_meeting]);
     }
+
+
+    public function editMeeting(){
+
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
+        }
+
+
+        $meeting_id = $_GET['meeting_id'];
+        $meeting = $this->meetingsRepository->getMeeting($meeting_id);
+
+        $meeting_client_id = $meeting->getClient()[0]['id'];
+        $clients = $this->meetingsRepository->getClientsOrderByMeetingClient($meeting_client_id);
+
+        $users_in_meeting = $this->meetingsRepository->getUsersInMeeting($meeting_id);
+        $all_active_users = $this->meetingsRepository->getAllMeetingUsers($meeting_id);
+
+        $this->render('meeting-edit',['meeting' => $meeting,'users_in_meeting' => $users_in_meeting,'all_active_users' => $all_active_users,'clients'=>$clients]);
+    }
+
+
+    public function updateMeeting(){
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
+        }
+
+        if($this->isPost()){
+            $client = $_POST['client_id'];
+            $topic = $_POST['topic'];
+            $date = $_POST['date'];
+            $location = $_POST['location'];
+            $tasks = $_POST['tasks'];
+            $meeting_id = $_POST['meeting_id'];
+
+            $this->meetingsRepository->updateMeetings($client,$topic,$date,$location,$tasks,$meeting_id);
+
+            return $this->redirect('/meetingDetails?meeting_id='.$meeting_id);
+        }
+
+
+    }
+
+    public function addUserMeetings(){
+
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
+        }
+
+        if($this->isPost()){
+            $user_id = $_POST['user_id'];
+            $meeting_id = $_POST['meeting_id'];
+            $this->meetingsRepository->addUserToMeeting($user_id,$meeting_id);
+            return $this->redirect('/editMeeting?meeting_id='.$meeting_id);
+
+        }
+
+    }
+
+    public function dropUserMeetings(){
+
+        if (!$this->isLoggedIn()) {
+            return $this->render('login', ['messages' => ['ZALOGUJ SIĘ!']]);
+        }
+
+        if($this->isGet()){
+            $meeting_id = $_GET['meeting_id'];
+            $user_id = $_GET['user_id'];
+            $this->meetingsRepository->dropUserMeeting($user_id,$meeting_id);
+            return $this->redirect('/editMeeting?meeting_id='.$meeting_id);
+        }
+
+    }
+
+
+
+
 
 }
