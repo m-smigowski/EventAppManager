@@ -92,7 +92,6 @@ class AdminPanelController extends AppController
             return $this->render('login', ['messages' => ['Nie masz uprawnień do przeglądania tej strony!'],
                 'display' => "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
         }
-
         if (!$this->isPost()) {
             return $this->render('admin-panel-user-add');
         }
@@ -123,6 +122,25 @@ class AdminPanelController extends AppController
             'display'=>"var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()"]);
 
     }
+
+    public function send_activation_email(string $email, string $activation_code): void
+    {
+        $url = "http://$_SERVER[HTTP_HOST]";
+        // create the activation link
+        $activation_link = $url."/activate?email=$email&activation_code=$activation_code";
+
+        // set email subject & body
+        $subject = 'Aktywuj swoje konto';
+        $body ='
+            Witaj,
+            w celu aktywacji swojego konta, klikjnij w poniższy link '.
+            $activation_link;
+        // send the email
+        $this->sendEmail($email, $subject, $body);
+
+    }
+
+
 
     public function usersListEdit()
     {

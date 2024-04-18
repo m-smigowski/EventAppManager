@@ -39,12 +39,13 @@ class EventController extends AppController
             $messages = ['Nie masz wystarczająco uprawnień'];
             $display = "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()";
         }
-
         if($_GET['msg'] == 'succes'){
             $messages = ['Wydarzenie dodane pomyślnie.'];
             $display = "var myModal = new bootstrap.Modal(document.getElementById('myModal'));myModal.show()";
         }
-        $this->render('events', ['events' => $events,'messages' => $messages,'display' => $display,'title'=>"Aktualne wydarzenia"]);
+
+        $this->render('events', ['events' => $events,'messages' => $messages,
+            'display' => $display,'title'=>"Aktualne wydarzenia"]);
     }
 
 
@@ -177,7 +178,9 @@ class EventController extends AppController
         }
         $rented_items = $this->depotRepository->getRentedItemsForEvent($event_id);
 
-        $this->render('event-view-details', ['event' => $event,'past'=>$past,'event_clients'=>$event_clients,'event_schedules'=> $event_schedules, 'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
+        $this->render('event-view-details', ['event' => $event,'past'=>$past,
+            'event_clients'=>$event_clients,'event_schedules'=> $event_schedules,
+            'usersInEvent' => $event_users,'user'=>$user,'rented_items'=>$rented_items]);
     }
 
     public function eventEditSchedules()

@@ -9,7 +9,6 @@ Router::get('index', 'DefaultController');
 Router::get('main', 'MainController');
 Router::get('userEdit', 'UsersPanelController');
 Router::get('activate', 'SecurityController');
-
 Router::post('addUser', 'AdminPanelController');
 Router::get('usersList', 'AdminPanelController');
 Router::post('usersListEdit', 'AdminPanelController');

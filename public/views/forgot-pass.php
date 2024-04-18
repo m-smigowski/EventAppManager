@@ -19,7 +19,7 @@
                     <span class="text-primary">MANAGER</span>
                 </h1>
                 <p style="color: hsl(217, 10%, 50.8%)">
-                    Podaj email w celu przypomnienia hasła.
+                    Podaj swój adres email w celu przypomnienia hasła.
                 </p>
             </div>
             <div class="col-lg-6 mb-5 mb-lg-0">
@@ -28,11 +28,11 @@
                         <form class="login" action="forgotPass" method="POST">
                             <div class="form-outline mb-4">
                                 <input name="email" type="text" class="form-control"/>
-                                <label class="form-label">ADRES E-MAIL</label>
+                                <label class="form-label">Adres e-mail</label>
                             </div>
                             <div class="d-grid gap-1">
                                 <button type="submit" class="btn btn-primary btn-block mb-4">
-                                    Przypomnij hasło
+                                    Przypomnij!
                                 </button>
                             </div>
 

@@ -11,14 +11,12 @@ services:
       - .:/EventAppManager/
     links:
       - php
-
   php:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
     volumes:
       - .:/EventAppManager/
-
   postgres:
     container_name: postgres_db
     image: postgres

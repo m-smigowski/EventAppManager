@@ -21,7 +21,6 @@ class UserRepository extends Repository
         if ($user == false) {
             return null;
         }
-
         return new User(
             $user['email'],
             $user['password'],
@@ -86,6 +85,7 @@ class UserRepository extends Repository
             $this->getUserDetailsId($user),
         ]);
     }
+
 
     public function updateLastLogin($user,$ip_address){
         $user_id_det = $this->getUserDetailsId($user);

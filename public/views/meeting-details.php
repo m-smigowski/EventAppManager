@@ -8,8 +8,7 @@
     <?php include 'public/views/elements/css.php'; ?>
 </head>
 <body>
-<?php $search = '<input type="search" id="search-input" class="form-control form-control-dark text-bg-dark w-25 me-auto" placeholder="Szukaj....."
-           aria-label="Search">'; ?>
+
 <?php include 'public/views/elements/header.php'; ?>
 <?php include 'public/views/elements/modal.php'; ?>
 

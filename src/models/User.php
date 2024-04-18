@@ -9,8 +9,8 @@ class User {
     private $status;
     private $active;
 
-
-    public function __construct($email, $password, $name, $surname, $phone, $status, $active)
+    public function __construct($email, $password, $name, $surname,
+                                $phone, $status, $active)
     {
         $this->email = $email;
         $this->password = $password;
@@ -20,18 +20,13 @@ class User {
         $this->status = $status;
         $this->active = $active;
     }
-
-
     public function getEmail()
     {
         return $this->email;
     }
-
-
     public function setEmail($email): void
     {
-        $this->email = $email;
-    }
+        $this->email = $email;}
 
 
     public function getPassword()

@@ -69,7 +69,7 @@ echo '
 '
 <header  class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-2 shadow">
     <a href="/main" id="header-logo" class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="width: 280px">
-        <h4>EVENT APP MANAGER</h4>
+        <h4>Event App <span class="text-primary">MANAGER</span></h4>
     </a>
     '.$search.'
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 

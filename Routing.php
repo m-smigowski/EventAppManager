@@ -12,9 +12,7 @@ require_once 'src/controllers/MeetingsController.php';
 
 
 class Router {
-
     public static $routes;
-
     public static function get($url, $view) {
         self::$routes[$url] = $view;
     }
@@ -36,3 +34,4 @@ class Router {
         $object->$action();
     }
 }
+

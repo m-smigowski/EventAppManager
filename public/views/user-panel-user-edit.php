@@ -24,48 +24,32 @@
             <section class="user-edit d-flex ">
                 <div class="user-data box w-50  me-2">
                     <h1 class="h4 mb-4">Edycja danych</h1>
+
                     <form class="w-75" action="userUpdate" method="POST" ENCTYPE="multipart/form-data">
-                        <div class="form-outline mb-2">
-                            <label> Adres E-Mail</label>
-                            <input name="email" type="text" class="form-control" disabled
-                                   value="<?= $user->getEmail(); ?>"/>
+                        <div class="form-outline mb-2"><label>Adres E-Mail</label>
+                            <input name="email" type="text" class="form-control" disabled value="<?= $user->getEmail(); ?>"/>
                         </div>
-
-                        <div class="form-outline mb-2">
-                            <label>Imię</label>
-                            <input name="name" type="text" class="form-control" disabled
-                                   value="<?= $user->getName(); ?>"/>
+                        <div class="form-outline mb-2"><label>Imię</label>
+                            <input name="name" type="text" class="form-control" disabled value="<?= $user->getName(); ?>"/>
                         </div>
-                        <div class="form-outline mb-2">
-                            <label>Nazwisko</label>
-                            <input name="surname" type="text" class="form-control" disabled
-                                   value="<?= $user->getSurname(); ?>"/>
+                        <div class="form-outline mb-2"><label>Nazwisko</label>
+                            <input name="surname" type="text" class="form-control" disabled value="<?= $user->getSurname(); ?>"/>
                         </div>
-                        <div class="form-outline mb-2">
-                            <label>Telefon</label>
-                            <input name="phone" type="text" class="form-control" disabled
-                                   value="<?= $user->getPhone(); ?>"/>
+                        <div class="form-outline mb-2"><label>Telefon</label>
+                            <input name="phone" type="text" class="form-control" disabled value="<?= $user->getPhone(); ?>"/>
                         </div>
-
                         <input name="id" type="hidden" value="<?= $_SESSION['user_id']; ?>">
-
-
                         <button type="button" class="btn btn-warning btn-edit" onclick="editForm()">
                             Edytuj
                         </button>
-
-
                         <button type="submit" class="btn btn-success btn-up d-none" value="Zaktualizuj" name="UserUP">
                             Zaktualizuj
                         </button>
-
-                        <button type="button" class="btn btn-danger btn-back d-none"
-                                onclick="window.location.href='/userEdit'">
+                        <button type="button" class="btn btn-danger btn-back d-none" onclick="window.location.href='/userEdit'">
                             Wróć
                         </button>
-
-
                     </form>
+
                 </div>
 
                 <div class="user-profile-photo box h-50">

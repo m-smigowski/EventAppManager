@@ -26,18 +26,17 @@
             <section class="coming-events">
                 <h1 class="h6">Nadchodzące wydarzenia w których bierzesz udział</h1>
                 <div id="event-1" class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <tr>
+                    <table class="table table-hover table-bordered ">
+                        <thead class="table-dark table align-middle ">
                             <th scope="col">#</th>
                             <th scope="col">Tytuł</th>
                             <th scope="col">Opis</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Typ
-                            </td>
+                            <th scope="col">Typ</th>
                             <th scope="col">Data rozpoczęcia</th>
                             <th scope="col">Data zakończenia</th>
                             <th scope="col">Akcja</th>
-                        </tr>
+                        </thead>
                         <?php if ($events === null) {
                             echo '
                                 <tr><td></td><td>Obecnie nie jesteś dodany do żadnego wydarzenia. </td>
