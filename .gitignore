@@ -3,3 +3,4 @@ public/uploads/
 .vscode
 config.php
 _config_old.php
+Database.php
