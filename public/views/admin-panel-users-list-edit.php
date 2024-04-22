@@ -112,7 +112,7 @@
                         <button type="submit" class="btn btn-success me-2" name="Update">
                             Zaktualizuj
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="window.location.href='/adminPanel'">
+                        <button type="button" class="btn btn-primary" onclick="window.location.href='/usersList'">
                             Wróć
                         </button>
                         <button type="submit" class="btn-drop btn btn-danger" name="Drop">
@@ -129,8 +129,10 @@
 
 
 <?php include 'public/views/elements/scripts.php' ?>
-<script>$('.nav-item [href="/adminPanel"]').addClass("active");</script>
-
+<script>
+    $(".submenu-adminpanel").addClass("show")
+    $('.nav-item [href="/usersList"]').addClass("active");
+</script
 
 </body>
 </html>
