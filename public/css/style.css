@@ -88,9 +88,7 @@ button a:hover {
 .sidebar li .submenu{
     list-style: none;
     margin: 0;
-    padding: 0;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0 1rem;
 }
 .submenu > li >.nav-link:not(.active){
     color: #e7e7e7;
@@ -125,7 +123,7 @@ main{
     border: 1px solid #dee2e6;
     background-color: #f9f9f9;
     padding: 1rem;
-    box-shadow: 0px -0px 9px 0px rgba(238, 238, 238, 1);
+    box-shadow: 0 -0px 9px 0 rgba(238, 238, 238, 1);
 }
 
 .box label{

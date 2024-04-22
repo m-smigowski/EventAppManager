@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\SMTP;
 require 'public/plugins/PHPMailer/src/Exception.php';
 require 'public/plugins/PHPMailer/src/PHPMailer.php';
 require 'public/plugins/PHPMailer/src/SMTP.php';
+require 'config.php';
 
 class AppController
 {
@@ -102,13 +103,13 @@ class AppController
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
 
-            $mail->Username = 'smigowski99@gmail.com'; // Podaj swój login gmail
-            $mail->Password = 'pnlzzkplwfhwyece'; // Podaj swoje hasło do aplikacji
+            $mail->Username = EMAIL_LOGIN;
+            $mail->Password = EMAIL_PASS;
 
             $mail->CharSet = 'UTF-8';
             $mail->setFrom('no-reply@eventappmanager.pl', 'EventApp ');
             $mail->addAddress($email);
-            $mail->addReplyTo('smigowski99@gmail.com', 'Kontakt');
+            $mail->addReplyTo(EMAIL_LOGIN, 'Kontakt');
 
             $mail->isHTML(true);
             $mail->Subject = $subject;
